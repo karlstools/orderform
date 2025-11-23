@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Broadband Material Request</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        /* Hide scrollbar for categories but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .card-selected { border: 2px solid #2563eb; background-color: #eff6ff; }
+        /* Smooth transitions for the collapsible section */
+        #orderInputs { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-32">
+
+    <div class="bg-white shadow-sm sticky top-0 z-20 border-b border-gray-200">
+        
+        <div class="max-w-7xl mx-auto px-3 py-2 md:py-4 flex justify-between items-center bg-white z-30 relative">
+            <h1 class="text-lg md:text-2xl font-bold text-blue-900 flex items-center gap-2">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                Material Request
+            </h1>
+            
+            <button onclick="toggleDetails()" id="detailsBtn" class="md:hidden text-xs font-bold text-blue-600 bg-blue-50 px-3 py-2 rounded-full flex items-center gap-1">
+                <span>📝 Order Info</span>
+                <svg id="chevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            
+            <div class="hidden md:block text-sm text-gray-500 font-medium">Date: <span id="currentDate"></span></div>
+        </div>
+
+        <div id="orderInputs" class="max-h-0 opacity-0 md:max-h-96 md:opacity-100 border-b md:border-none border-gray-100 bg-slate-50 md:bg-white">
+            <div class="max-w-7xl mx-auto px-3 py-3">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white md:bg-slate-100 p-3 rounded-lg border border-gray-200 md:border-slate-200 shadow-sm md:shadow-none">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">From Warehouse</label>
+                        <select class="w-full p-2 rounded border border-gray-300 text-sm bg-white" id="fromWarehouse">
+                            <option value="1">Warehouse 1</option>
+                          
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">To Warehouse/Truck</label>
+                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm" placeholder="Truck Number" id="toWarehouse">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Issued By</label>
+                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm" id="issuedBy">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Received By</label>
+                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm" id="receivedBy">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-3 pb-3 pt-1 bg-white">
+            <div class="relative mb-2">
+                <input type="text" id="searchInput" placeholder="Search equipment..." class="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                <svg class="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                <button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold shadow-sm cat-btn active-cat whitespace-nowrap flex-shrink-0">All</button>
+                <button onclick="filterCategory('Equipment')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Equipments</button>
+                <button onclick="filterCategory('Fiber')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber</button>
+                <button onclick="filterCategory('Plates/Jacks')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Wall Plates</button>
+                <button onclick="filterCategory('Hardware')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Hardware</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-3 py-4">
+        <div id="gridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-3 z-30 safe-area-pb">
+        <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
+            <div class="flex flex-col">
+                <div class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total Items</div>
+                <div class="text-xl font-black text-blue-900 leading-none"><span id="totalCount">0</span></div>
+            </div>
+            <button onclick="generateExcel()" class="flex-1 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
+                <span>Download Order</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const catalog = [
+            { id: "80610", name: "4 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80612", name: "2 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80614", name: "1 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80616", name: "CAT5e KEYSTONE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80618", name: "F CONNECTOR, FOR COAX WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80620", name: "4 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80622", name: "2 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80624", name: "1 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80628", name: "F CONNECTOR, FOR COAX IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80630", name: "8\" UV CABLE TIES (BAG)", category: "Hardware", isPopular: false },
+            { id: "80632", name: "7' CAT5e PATCH CABLE", category: "Hardware", isPopular: false },
+            { id: "80636", name: "DRYWALL BRACKET", category: "Hardware", isPopular: false },
+            { id: "80640", name: "SURFACE MOUNT 1 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80642", name: "SURFACE MOUNT 2 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80644", name: "SURFACE MOUNT 1 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80646", name: "SURFACE MOUNT 2 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "7' FIBER JUMPER", category: "Fiber", isPopular: true },
+            { id: "NA", name: "25' FIBER JUMPER", category: "Fiber", isPopular: true },
+            { id: "NA", name: "50' FIBER JUMPER", category: "Fiber", isPopular: true },
+            { id: "NA", name: "75' FIBER JUMPER", category: "Fiber", isPopular: true },
+            { id: "NA", name: "100' FIBER JUMPER", category: "Fiber", isPopular: true },
+            { id: "NA", name: "125' FIBER JUMPER", category: "Fiber", isPopular: true },
+            { id: "NA", name: "150' FIBER JUMPER", category: "Fiber", isPopular: false },
+            { id: "80634", name: "SILICONE", category: "Hardware", isPopular: false },
+            { id: "80654", name: "SCOTCH LOCKS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "TII BOXES-WHITE", category: "Plates/Jacks", isPopular: true },
+            { id: "NA", name: "TII BOXES-GRAY", category: "Hardware", isPopular: false },
+            { id: "NA", name: "BOX OF CAT 5", category: "Hardware", isPopular: false },
+            { id: "NA", name: "RJ11", category: "Hardware", isPopular: false },
+            { id: "NA", name: "CAT5 CLIPS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "ELECTRICAL TAPE", category: "Hardware", isPopular: false },
+            { id: "NA", name: "CABLE CLIP SCREWS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "PHONE INSERT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "PHONE INSERT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "BLANK INSERT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "BLANK INSERT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "HDMI CORDS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "AMINO REMOTES", category: "Equipments", isPopular: false },
+            { id: "NA", name: "AA BATTERIES", category: "Hardware", isPopular: false },
+            { id: "NA", name: "AAA BATTERIES", category: "Hardware", isPopular: false },
+            { id: "NA", name: "9V BATTERIES", category: "Hardware", isPopular: false },
+            { id: "NA", name: "RJ45", category: "Hardware", isPopular: false },
+            { id: "80030", name: "PLUMES SUPER PODS", category: "Equipments", isPopular: false },
+            { id: "80603", name: "GP1100X", category: "Equipments", isPopular: true },
+            { id: "80005", name: "HD SET TOP 651", category: "Equipments", isPopular: false },
+            { id: "80005", name: "HD SET TOP 7B", category: "Equipments", isPopular: true },
+            { id: "80005", name: "HD SET TOP 7X", category: "Equipments", isPopular: false },
+            { id: "80006", name: "SET BACK BOX", category: "Equipments", isPopular: false },
+            { id: "80015", name: "AMINO AMULET DVR", category: "Equipments", isPopular: false },
+            { id: "80604", name: "U4/GS2028E", category: "Equipments", isPopular: false },
+            { id: "80605", name: "U6/GS4227W", category: "Equipments", isPopular: false },
+            { id: "80606", name: "U4M/GM1028", category: "Equipments", isPopular: false },
+            { id: "80607", name: "10G OPTI", category: "Equipments", isPopular: false },
+            { id: "80608", name: "1G OPTI", category: "Equipments", isPopular: false },
+            { id: "80910", name: "U10X", category: "Equipments", isPopular: false },
+            { id: "80609", name: "4200 OUTDOOR ONT", category: "Equipments", isPopular: false },
+            { id: "NA", name: "XGSPON Calix SFP+", category: "Equipments", isPopular: false },
+            { id: "NA", name: "U6XTG", category: "Equipments", isPopular: true },
+            { id: "NA", name: "GP1101", category: "Equipments", isPopular: true },
+            { id: "NA", name: "U6T", category: "Equipments", isPopular: true }
+        ];
+
+        catalog.forEach((item, index) => { item.uid = index; });
+
+        // --- STATE ---
+        let cart = {}; 
+        let currentFilter = 'All';
+        let isDetailsOpen = false;
+
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString();
+        renderGrid();
+
+        // --- TOGGLE MOBILE DETAILS ---
+        function toggleDetails() {
+            const el = document.getElementById('orderInputs');
+            const chev = document.getElementById('chevron');
+            isDetailsOpen = !isDetailsOpen;
+            
+            if(isDetailsOpen) {
+                el.style.maxHeight = "500px";
+                el.style.opacity = "1";
+                chev.style.transform = "rotate(180deg)";
+            } else {
+                el.style.maxHeight = "0";
+                el.style.opacity = "0";
+                chev.style.transform = "rotate(0deg)";
+            }
+        }
+
+        // --- UI ---
+        function renderGrid() {
+            const container = document.getElementById('gridContainer');
+            container.innerHTML = '';
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            let displayList = [...catalog].sort((a, b) => (a.isPopular === b.isPopular) ? 0 : a.isPopular ? -1 : 1);
+
+            displayList.forEach(item => {
+                if (currentFilter !== 'All' && item.category !== currentFilter) return;
+                if (searchTerm && !item.name.toLowerCase().includes(searchTerm) && !item.id.toLowerCase().includes(searchTerm)) return;
+
+                const qty = cart[item.name] || 0;
+                const isSelected = qty > 0;
+                let icon = getIconForCategory(item.category);
+
+                const card = document.createElement('div');
+                card.className = `bg-white p-3 rounded-xl shadow-sm border transition ${isSelected ? 'card-selected' : 'border-gray-200'}`;
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="text-[10px] font-mono bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">${item.id}</span>
+                        ${item.isPopular ? '<span class="text-[9px] text-amber-600 font-bold uppercase tracking-wide flex items-center gap-1">★ Pop</span>' : ''}
+                    </div>
+                    <div class="flex items-center gap-2 mb-2 h-10">
+                        ${icon}
+                        <h3 class="font-semibold text-gray-800 text-xs leading-tight line-clamp-2">${item.name}</h3>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mt-auto bg-gray-50 rounded-lg p-1 border border-gray-100">
+                        <button onclick="updateQty(${item.uid}, -1)" class="w-8 h-8 flex items-center justify-center rounded bg-white shadow-sm text-gray-600 active:bg-gray-200 font-bold text-lg touch-manipulation">-</button>
+                        <input type="number" value="${qty}" class="w-10 text-center bg-transparent font-bold text-gray-800 focus:outline-none text-lg" readonly>
+                        <button onclick="updateQty(${item.uid}, 1)" class="w-8 h-8 flex items-center justify-center rounded bg-blue-600 shadow-sm text-white active:bg-blue-800 font-bold text-lg touch-manipulation">+</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateQty(uid, change) {
+            const item = catalog[uid]; 
+            if (!item) return;
+            if (!cart[item.name]) cart[item.name] = 0;
+            cart[item.name] += change;
+            if (cart[item.name] < 0) cart[item.name] = 0;
+            
+            renderGrid();
+            let count = 0;
+            Object.values(cart).forEach(val => { if(val > 0) count++ });
+            document.getElementById('totalCount').innerText = count;
+        }
+
+        function getIconForCategory(cat) {
+            if (cat === 'Equipments') return '<div class="w-5 h-5 text-purple-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></div>';
+            if (cat === 'Fiber') return '<div class="w-5 h-5 text-green-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>';
+            if (cat === 'Plates/Jacks') return '<div class="w-5 h-5 text-orange-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg></div>';
+            return '<div class="w-5 h-5 text-gray-400 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg></div>';
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if(btn.innerText.includes(cat) || (cat === 'Plates/Jacks' && btn.innerText.includes('Wall'))) {
+                    btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-white', 'border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
+                } else {
+                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-white', 'border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
+                }
+            });
+            renderGrid();
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', renderGrid);
+
+        function generateExcel() {
+            // Check if details are empty
+            const issuedBy = document.getElementById('issuedBy').value;
+            if(!issuedBy && !confirm("The 'Issued By' field is empty. Do you want to download anyway?")) {
+                if(!isDetailsOpen) toggleDetails();
+                document.getElementById('issuedBy').focus();
+                return;
+            }
+
+            const fromWh = document.getElementById('fromWarehouse').value;
+            const toWh = document.getElementById('toWarehouse').value;
+            const receivedBy = document.getElementById('receivedBy').value;
+            const dateStr = new Date().toLocaleDateString();
+
+            const midpoint = Math.ceil(catalog.length / 2);
+            const leftColItems = catalog.slice(0, midpoint);
+            const rightColItems = catalog.slice(midpoint);
+
+            let ws_data = [
+                ["BROADBAND MATERIAL ISSUE SHEET"], 
+                [], 
+                ["FROM WAREHOUSE:", fromWh, "", "ISSUED BY:", issuedBy, "DATE:", dateStr],
+                ["TO WAREHOUSE:", toWh, "", "RECEIVED BY:", receivedBy, "", ""],
+                [], 
+                ["ITEM #", "DESCRIPTION", "QTY", "", "ITEM #", "DESCRIPTION", "QTY"], 
+            ];
+
+            const maxRows = Math.max(leftColItems.length, rightColItems.length);
+
+            for (let i = 0; i < maxRows; i++) {
+                const leftItem = leftColItems[i] || { id: "", name: "" };
+                const rightItem = rightColItems[i] || { id: "", name: "" };
+
+                const leftQty = cart[leftItem.name] > 0 ? cart[leftItem.name] : "";
+                const rightQty = cart[rightItem.name] > 0 ? cart[rightItem.name] : "";
+
+                ws_data.push([
+                    leftItem.id, leftItem.name, leftQty, "", 
+                    rightItem.id, rightItem.name, rightQty
+                ]);
+            }
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+            ws['!cols'] = [ {wch: 10}, {wch: 35}, {wch: 8}, {wch: 5}, {wch: 10}, {wch: 35}, {wch: 8} ];
+
+            XLSX.utils.book_append_sheet(wb, ws, "Request");
+            XLSX.writeFile(wb, `Broadband_Request_${issuedBy || 'Order'}_${dateStr.replace(/\//g, '-')}.xlsx`);
+        }
+    </script>
+</body>
+</html>
