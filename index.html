@@ -71,7 +71,7 @@
 
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold shadow-sm cat-btn active-cat whitespace-nowrap flex-shrink-0">All</button>
-                <button onclick="filterCategory('Equipment')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Equipments</button>
+                <button onclick="filterCategory('Equipment')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Equipment</button>
                 <button onclick="filterCategory('Fiber')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber</button>
                 <button onclick="filterCategory('Plates/Jacks')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Wall Plates</button>
                 <button onclick="filterCategory('Hardware')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Hardware</button>
@@ -137,29 +137,29 @@
             { id: "NA", name: "BLANK INSERT, WHITE", category: "Plates/Jacks", isPopular: false },
             { id: "NA", name: "BLANK INSERT, IVORY", category: "Plates/Jacks", isPopular: false },
             { id: "NA", name: "HDMI CORDS", category: "Hardware", isPopular: false },
-            { id: "NA", name: "AMINO REMOTES", category: "Equipments", isPopular: false },
+            { id: "NA", name: "AMINO REMOTES", category: "Equipment", isPopular: false },
             { id: "NA", name: "AA BATTERIES", category: "Hardware", isPopular: false },
             { id: "NA", name: "AAA BATTERIES", category: "Hardware", isPopular: false },
             { id: "NA", name: "9V BATTERIES", category: "Hardware", isPopular: false },
             { id: "NA", name: "RJ45", category: "Hardware", isPopular: false },
-            { id: "80030", name: "PLUMES SUPER PODS", category: "Equipments", isPopular: false },
-            { id: "80603", name: "GP1100X", category: "Equipments", isPopular: true },
-            { id: "80005", name: "HD SET TOP 651", category: "Equipments", isPopular: false },
-            { id: "80005", name: "HD SET TOP 7B", category: "Equipments", isPopular: true },
-            { id: "80005", name: "HD SET TOP 7X", category: "Equipments", isPopular: false },
-            { id: "80006", name: "SET BACK BOX", category: "Equipments", isPopular: false },
-            { id: "80015", name: "AMINO AMULET DVR", category: "Equipments", isPopular: false },
-            { id: "80604", name: "U4/GS2028E", category: "Equipments", isPopular: false },
-            { id: "80605", name: "U6/GS4227W", category: "Equipments", isPopular: false },
-            { id: "80606", name: "U4M/GM1028", category: "Equipments", isPopular: false },
-            { id: "80607", name: "10G OPTI", category: "Equipments", isPopular: false },
-            { id: "80608", name: "1G OPTI", category: "Equipments", isPopular: false },
-            { id: "80910", name: "U10X", category: "Equipments", isPopular: false },
-            { id: "80609", name: "4200 OUTDOOR ONT", category: "Equipments", isPopular: false },
-            { id: "NA", name: "XGSPON Calix SFP+", category: "Equipments", isPopular: false },
-            { id: "NA", name: "U6XTG", category: "Equipments", isPopular: true },
-            { id: "NA", name: "GP1101", category: "Equipments", isPopular: true },
-            { id: "NA", name: "U6T", category: "Equipments", isPopular: true }
+            { id: "80030", name: "PLUMES SUPER PODS", category: "Equipment", isPopular: false },
+            { id: "80603", name: "GP1100X", category: "Equipment", isPopular: true },
+            { id: "80005", name: "HD SET TOP 651", category: "Equipment", isPopular: false },
+            { id: "80005", name: "HD SET TOP 7B", category: "Equipment", isPopular: true },
+            { id: "80005", name: "HD SET TOP 7X", category: "Equipment", isPopular: false },
+            { id: "80006", name: "SET BACK BOX", category: "Equipment", isPopular: false },
+            { id: "80015", name: "AMINO AMULET DVR", category: "Equipment", isPopular: false },
+            { id: "80604", name: "U4/GS2028E", category: "Equipment", isPopular: false },
+            { id: "80605", name: "U6/GS4227W", category: "Equipment", isPopular: false },
+            { id: "80606", name: "U4M/GM1028", category: "Equipment", isPopular: false },
+            { id: "80607", name: "10G OPTI", category: "Equipment", isPopular: false },
+            { id: "80608", name: "1G OPTI", category: "Equipment", isPopular: false },
+            { id: "80910", name: "U10X", category: "Equipment", isPopular: false },
+            { id: "80609", name: "4200 OUTDOOR ONT", category: "Equipment", isPopular: false },
+            { id: "NA", name: "XGSPON Calix SFP+", category: "Equipment", isPopular: false },
+            { id: "NA", name: "U6XTG", category: "Equipment", isPopular: true },
+            { id: "NA", name: "GP1101", category: "Equipment", isPopular: true },
+            { id: "NA", name: "U6T", category: "Equipment", isPopular: true }
         ];
 
         catalog.forEach((item, index) => { item.uid = index; });
@@ -242,7 +242,7 @@
         }
 
         function getIconForCategory(cat) {
-            if (cat === 'Equipments') return '<div class="w-5 h-5 text-purple-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></div>';
+            if (cat === 'Equipment') return '<div class="w-5 h-5 text-purple-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></div>';
             if (cat === 'Fiber') return '<div class="w-5 h-5 text-green-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>';
             if (cat === 'Plates/Jacks') return '<div class="w-5 h-5 text-orange-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg></div>';
             return '<div class="w-5 h-5 text-gray-400 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg></div>';
@@ -316,3 +316,4 @@
     </script>
 </body>
 </html>
+
