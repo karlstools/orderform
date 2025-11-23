@@ -11,11 +11,9 @@
 
     <style>
         body { font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-        /* Hide scrollbar for categories but allow scrolling */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .card-selected { border: 2px solid #2563eb; background-color: #eff6ff; }
-        /* Smooth transitions for the collapsible section */
         #orderInputs { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
     </style>
 </head>
@@ -34,17 +32,25 @@
                 <svg id="chevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
             
-            <div class="hidden md:block text-sm text-gray-500 font-medium">Date: <span id="currentDate"></span></div>
+            <div class="hidden md:flex items-center gap-2 text-sm text-gray-500 font-medium">
+                <label for="orderDate">Date:</label>
+                <input type="date" id="orderDate" class="bg-gray-50 border border-gray-300 rounded px-2 py-1 text-blue-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
         </div>
 
         <div id="orderInputs" class="max-h-0 opacity-0 md:max-h-96 md:opacity-100 border-b md:border-none border-gray-100 bg-slate-50 md:bg-white">
             <div class="max-w-7xl mx-auto px-3 py-3">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-white md:bg-slate-100 p-3 rounded-lg border border-gray-200 md:border-slate-200 shadow-sm md:shadow-none">
+                    
+                    <div class="md:hidden col-span-2">
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Order Date</label>
+                        <input type="date" id="orderDateMobile" onchange="syncDates(this.value)" class="w-full p-2 rounded border border-gray-300 text-sm bg-white">
+                    </div>
+
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">From Warehouse</label>
                         <select class="w-full p-2 rounded border border-gray-300 text-sm bg-white" id="fromWarehouse">
                             <option value="1">Warehouse 1</option>
-                          
                         </select>
                     </div>
                     <div>
@@ -169,8 +175,17 @@
         let currentFilter = 'All';
         let isDetailsOpen = false;
 
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString();
+        // Initialize Dates
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('orderDate').value = today;
+        document.getElementById('orderDateMobile').value = today;
+
         renderGrid();
+
+        function syncDates(val) {
+            document.getElementById('orderDate').value = val;
+            document.getElementById('orderDateMobile').value = val;
+        }
 
         // --- TOGGLE MOBILE DETAILS ---
         function toggleDetails() {
@@ -179,7 +194,7 @@
             isDetailsOpen = !isDetailsOpen;
             
             if(isDetailsOpen) {
-                el.style.maxHeight = "500px";
+                el.style.maxHeight = "600px";
                 el.style.opacity = "1";
                 chev.style.transform = "rotate(180deg)";
             } else {
@@ -276,7 +291,11 @@
             const fromWh = document.getElementById('fromWarehouse').value;
             const toWh = document.getElementById('toWarehouse').value;
             const receivedBy = document.getElementById('receivedBy').value;
-            const dateStr = new Date().toLocaleDateString();
+            
+            // GET DATE FROM INPUT
+            const rawDate = document.getElementById('orderDate').value;
+            // Add T00:00 to ensure timezone doesn't shift the date back 1 day
+            const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString(); 
 
             const midpoint = Math.ceil(catalog.length / 2);
             const leftColItems = catalog.slice(0, midpoint);
@@ -311,9 +330,8 @@
             ws['!cols'] = [ {wch: 10}, {wch: 35}, {wch: 8}, {wch: 5}, {wch: 10}, {wch: 35}, {wch: 8} ];
 
             XLSX.utils.book_append_sheet(wb, ws, "Request");
-            XLSX.writeFile(wb, `Broadband_Request_${issuedBy || 'Order'}_${dateStr.replace(/\//g, '-')}.xlsx`);
+            XLSX.writeFile(wb, `Broadband_Request_${issuedBy || 'Order'}_${rawDate}.xlsx`);
         }
     </script>
 </body>
 </html>
-
