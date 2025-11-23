@@ -78,7 +78,7 @@ F<!DOCTYPE html>
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold shadow-sm cat-btn active-cat whitespace-nowrap flex-shrink-0">All</button>
                 <button onclick="filterCategory('Equipment')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Equipment</button>
-                <button onclick="filterCategory('Fiber')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber</button>
+                <button onclick="filterCategory('Fiber/Copper')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber/Copper</button>
                 <button onclick="filterCategory('Plates/Jacks')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Wall Plates</button>
                 <button onclick="filterCategory('Hardware')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Hardware</button>
             </div>
@@ -116,20 +116,20 @@ F<!DOCTYPE html>
             { id: "80624", name: "1 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
             { id: "80628", name: "F CONNECTOR, FOR COAX IVORY", category: "Plates/Jacks", isPopular: false },
             { id: "80630", name: "8\" UV CABLE TIES (BAG)", category: "Hardware", isPopular: false },
-            { id: "80632", name: "7' CAT5e PATCH CABLE", category: "Fiber", isPopular: false },
+            { id: "80632", name: "7' CAT5e PATCH CABLE", category: "Fiber/Copper", isPopular: false },
             { id: "80636", name: "DRYWALL BRACKET", category: "Hardware", isPopular: false },
             { id: "80640", name: "SURFACE MOUNT 1 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
             { id: "80642", name: "SURFACE MOUNT 2 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
             { id: "80644", name: "SURFACE MOUNT 1 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
             { id: "80646", name: "SURFACE MOUNT 2 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
-             { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber", isPopular: true },
-            { id: "NA", name: "7' FIBER JUMPER", category: "Fiber", isPopular: true },
-            { id: "NA", name: "25' FIBER JUMPER", category: "Fiber", isPopular: true },
-            { id: "NA", name: "50' FIBER JUMPER", category: "Fiber", isPopular: true },
-            { id: "NA", name: "75' FIBER JUMPER", category: "Fiber", isPopular: true },
-            { id: "NA", name: "100' FIBER JUMPER", category: "Fiber", isPopular: true },
-            { id: "NA", name: "125' FIBER JUMPER", category: "Fiber", isPopular: true },
-            { id: "NA", name: "150' FIBER JUMPER", category: "Fiber", isPopular: false },
+             { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "7' Fiber/Copper JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "25' Fiber/Copper JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "50' Fiber/Copper JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "75' Fiber/Copper JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "100' Fiber/Copper JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "125' Fiber/Copper JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "150' Fiber/Copper JUMPER", category: "Fiber/Copper", isPopular: false },
             { id: "80634", name: "SILICONE", category: "Hardware", isPopular: false },
             { id: "80654", name: "SCOTCH LOCKS", category: "Hardware", isPopular: false },
             { id: "NA", name: "TII BOXES-WHITE", category: "Plates/Jacks", isPopular: true },
@@ -259,7 +259,7 @@ F<!DOCTYPE html>
 
         function getIconForCategory(cat) {
             if (cat === 'Equipment') return '<div class="w-5 h-5 text-purple-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></div>';
-            if (cat === 'Fiber') return '<div class="w-5 h-5 text-green-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>';
+            if (cat === 'Fiber/Copper') return '<div class="w-5 h-5 text-green-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>';
             if (cat === 'Plates/Jacks') return '<div class="w-5 h-5 text-orange-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg></div>';
             return '<div class="w-5 h-5 text-gray-400 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg></div>';
         }
@@ -336,5 +336,6 @@ F<!DOCTYPE html>
     </script>
 </body>
 </html>
+
 
 
