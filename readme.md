@@ -24,7 +24,7 @@ This application is built entirely on the client side (in the user's browser) us
 
  * Enter Order Details
    * On desktop, the input fields are visible at the top.
-   * On mobile, tap the "📝 Order Info" button to toggle the details section open.
+   * On mobile, tap the "Order Info" button to toggle the details section open.
    * Fill out the Order Date, To Warehouse/Truck (mandatory), Issued By, and Received By fields.
  * Select Materials
    * Use the Search input to quickly find items by name or ID.
