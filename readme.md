@@ -4,7 +4,9 @@ This document provides an overview and instructions for the Broadband Material R
 
 The application is a client-side tool allowing field staff or warehouse personnel to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.
 It is built as a highly responsive, app-like experience for use on mobile devices and desktop browsers.
+
 🛠️ Technology & Dependencies
+
 This application is built entirely on the client side (in the user's browser) using:
  * HTML5 & Vanilla JavaScript: Core structure and operational logic.
  * Tailwind CSS (via CDN): Provides modern, utility-first styling and ensures responsiveness.
