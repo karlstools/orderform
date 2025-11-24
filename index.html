@@ -390,7 +390,7 @@
             // Check if details are empty
             const issuedBy = document.getElementById('issuedBy').value;
             if(!issuedBy && !confirm("The 'Issued By' field is empty. Do you want to download anyway?")) {
-                if(!isDetailsOpen) toggleDetails();
+                if(!isDetailsOpen) toggleDetails()
                 document.getElementById('issuedBy').focus();
                 return;
             }
@@ -402,7 +402,16 @@
             // GET DATE FROM INPUT
             const rawDate = document.getElementById('orderDate').value;
             // Add T00:00 to ensure timezone doesn't shift the date back 1 day
-            const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString(); 
+            const dateObj = new Date(rawDate + "T00:00:00"); 
+            const dateStr = dateObj.toLocaleDateString(); 
+
+            // --- FILENAME LOGIC (UPDATED) ---
+            const month = dateObj.getMonth() + 1; // getMonth is 0-indexed
+            const day = dateObj.getDate();
+            const dateFileName = `${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+
+            // Clean the truck number for filename (replace spaces/slashes with underscores)
+            const truckNumber = toWh ? toWh.trim().replace(/[\s\/]/g, '_').toUpperCase() : 'NO_TRUCK';
 
             // Filter catalog to only include items in the cart (for accurate split)
             const cartItems = catalog.filter(item => cart[item.name] > 0);
@@ -455,9 +464,10 @@
             }
 
             XLSX.utils.book_append_sheet(wb, ws, "Request");
-            XLSX.writeFile(wb, `Broadband_Request_${issuedBy || 'Order'}_${rawDate}.xlsx`);
+            
+            // WRITE FILE WITH NEW FORMAT
+            XLSX.writeFile(wb, `${dateFileName}_${truckNumber}_broadband_order_request.xlsx`);
         }
     </script>
 </body>
 </html>
-
