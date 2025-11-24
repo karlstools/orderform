@@ -412,6 +412,7 @@
 
             // Clean the truck number for filename (replace spaces/slashes with underscores)
             const truckNumber = toWh ? toWh.trim().replace(/[\s\/]/g, '_').toUpperCase() : 'NO_TRUCK';
+            const finalFilename = `${dateFileName}_${truckNumber}_broadband_order_request.xlsx`;
 
             // Filter catalog to only include items in the cart (for accurate split)
             const cartItems = catalog.filter(item => cart[item.name] > 0);
@@ -465,8 +466,21 @@
 
             XLSX.utils.book_append_sheet(wb, ws, "Request");
             
-            // WRITE FILE WITH NEW FORMAT
-            XLSX.writeFile(wb, `${dateFileName}_${truckNumber}_broadband_order_request.xlsx`);
+            // --- UPDATED DOWNLOAD METHOD (BLOB for mobile compatibility) ---
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = finalFilename;
+            
+            // Trigger the download
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            // --- END UPDATED DOWNLOAD METHOD ---
         }
     </script>
 </body>
