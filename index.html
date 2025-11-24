@@ -211,7 +211,7 @@
         let cart = {};  
         let currentFilter = 'All';
         let isDetailsOpen = false;
-        let isCartSliderOpen = false; // New state variable
+        let isCartSliderOpen = false;
 
         // Initialize Dates
         const today = new Date().toISOString().split('T')[0];
@@ -226,14 +226,21 @@
         // --- CART SLIDER LOGIC ---
         function toggleCartSlider(forceState) {
             const slider = document.getElementById('cart-slider');
-            const totalCount = document.getElementById('totalCount').innerText;
+            const totalCount = parseInt(document.getElementById('totalCount').innerText) || 0;
 
-            if (totalCount === '0') {
-                isCartSliderOpen = false;
+            // 1. Determine the new state
+            if (forceState !== undefined) {
+                isCartSliderOpen = forceState;
             } else {
-                isCartSliderOpen = forceState === undefined ? !isCartSliderOpen : forceState;
+                isCartSliderOpen = !isCartSliderOpen;
+            }
+            
+            // 2. Only allow opening if items are in the cart
+            if (isCartSliderOpen && totalCount === 0) {
+                isCartSliderOpen = false; // Prevent opening if empty
             }
 
+            // 3. Apply transformation based on state
             if (isCartSliderOpen) {
                 slider.classList.add('open');
                 // Ensure the list is rendered when opening
@@ -255,7 +262,7 @@
             const cartItems = catalog
                 .filter(item => cart[item.name] > 0)
                 .map(item => ({
-                    uid: item.uid, // Add uid for potential removal/adjustment later
+                    uid: item.uid,
                     name: item.name,
                     qty: cart[item.name],
                     category: item.category
@@ -283,6 +290,7 @@
                 });
             }
 
+            // Update visible counts
             totalCountElement.innerText = itemCount;
             sliderItemCountElement.innerText = itemCount;
 
