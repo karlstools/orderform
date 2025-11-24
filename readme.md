@@ -2,7 +2,7 @@ This document provides an overview and instructions for the Broadband Material R
 
 💡 Overview
 
-The application is a client-side tool allowing field staff or warehouse personnel to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.
+The application is a client-side tool allowing field staff to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.
 It is built as a highly responsive, app-like experience for use on mobile devices and desktop browsers.
 
 🛠️ Technology & Dependencies
