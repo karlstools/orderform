@@ -44,29 +44,32 @@
 <body class="bg-slate-50 text-slate-800 pb-32">
 
     <div class="bg-white shadow-sm sticky top-0 z-20 border-b border-gray-200">
+    
+    <div class="max-w-7xl mx-auto px-3 py-2 md:py-4 flex justify-between items-center bg-white z-30 relative">
+        <h1 class="text-lg md:text-2xl font-bold text-blue-900 flex items-center gap-2">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Broadband Material Request
+        </h1>
         
-        <div class="max-w-7xl mx-auto px-3 py-2 md:py-4 flex justify-between items-center bg-white z-30 relative">
-            <h1 class="text-lg md:text-2xl font-bold text-blue-900 flex items-center gap-2">
-                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                Broadband Material Request
-            </h1>
+        <div class="flex items-center gap-3">
+             <button onclick="toggleHelpModal()" class="text-gray-500 hover:text-blue-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </button>
             
-            <div class="flex items-center gap-3">
-                 <button onclick="toggleHelpModal()" class="text-gray-500 hover:text-blue-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9.247a3.75 3.75 0 100 7.5l.448-.15c.621-.21 1.253-.324 1.884-.324 1.83 0 3.315 1.485 3.315 3.315V21h4.002a2 2 0 002-2V5a2 2 0 00-2-2h-4.002c-1.83 0-3.315 1.485-3.315 3.315 0 .631-.115 1.263-.324 1.884l-.15.448zM12 21v-4.002h2.5M12 21H7.5V17.5M12 9a2 2 0 100-4 2 2 0 000 4z"></path></svg>
-                </button>
-                
-                <button onclick="toggleDetails()" id="detailsBtn" class="md:hidden text-xs font-bold text-blue-600 bg-blue-50 px-3 py-2 rounded-full flex items-center gap-1">
-                    <span>Order Info</span>
-                    <svg id="chevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-            </div>
-            
-            <div class="hidden md:flex items-center gap-2 text-sm text-gray-500 font-medium">
-                <label for="orderDate">Date:</label>
-                <input type="date" id="orderDate" class="bg-gray-50 border border-gray-300 rounded px-2 py-1 text-blue-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
+            <button onclick="toggleDetails()" id="detailsBtn" class="md:hidden text-xs font-bold text-blue-600 bg-blue-50 px-3 py-2 rounded-full flex items-center gap-1">
+                <span>Order Info</span>
+                <svg id="chevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
         </div>
+        
+        <div class="hidden md:flex items-center gap-2 text-sm text-gray-500 font-medium">
+            <label for="orderDate">Date:</label>
+            <input type="date" id="orderDate" class="bg-gray-50 border border-gray-300 rounded px-2 py-1 text-blue-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+    </div>
+    </div>
 
         <div id="orderInputs" class="max-h-0 opacity-0 md:max-h-96 md:opacity-100 border-b md:border-none border-gray-100 bg-slate-50 md:bg-white">
             <div class="max-w-7xl mx-auto px-3 py-3">
