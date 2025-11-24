@@ -226,7 +226,9 @@
         // --- CART SLIDER LOGIC ---
         function toggleCartSlider(forceState) {
             const slider = document.getElementById('cart-slider');
-            const totalCount = parseInt(document.getElementById('totalCount').innerText) || 0;
+            
+            // Calculate the current item count by checking the cart object keys that have a quantity > 0
+            const itemCount = Object.keys(cart).filter(key => cart[key] > 0).length;
 
             // 1. Determine the new state
             if (forceState !== undefined) {
@@ -236,7 +238,7 @@
             }
             
             // 2. Only allow opening if items are in the cart
-            if (isCartSliderOpen && totalCount === 0) {
+            if (isCartSliderOpen && itemCount === 0) {
                 isCartSliderOpen = false; // Prevent opening if empty
             }
 
