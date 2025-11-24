@@ -16,7 +16,7 @@
         .card-selected { border: 2px solid #2563eb; background-color: #eff6ff; }
         #orderInputs { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
         
-        /* CORRECTED Cart Drawer Styles */
+        /* NEW: Cart Drawer Styles */
         #cartDrawer {
             transform: translateY(100%);
             transition: transform 0.3s ease-in-out;
@@ -24,7 +24,6 @@
         #cartDrawer.open {
             transform: translateY(0);
         }
-        /* Optional: Add an overlay or disable body scroll when open */
         body.drawer-open {
             overflow: hidden; 
         }
@@ -137,7 +136,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span class="hidden md:inline">View</span> Cart
             </button>
-            
+
             <button onclick="generateExcel()" class="bg-green-600 hover:bg-green-700 active:bg-green-800 text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95 flex-1">
                 <span>Download Order</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -148,75 +147,70 @@
     <script>
         // --- DATA ---
         const catalog = [
-            { id: "80610", name: "4 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false, uid: 0 },
-            { id: "80612", name: "2 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false, uid: 1 },
-            { id: "80614", name: "1 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false, uid: 2 },
-            { id: "80616", name: "CAT5e KEYSTONE, WHITE", category: "Plates/Jacks", isPopular: false, uid: 3 },
-            { id: "80618", name: "F CONNECTOR, FOR COAX WHITE", category: "Plates/Jacks", isPopular: false, uid: 4 },
-            { id: "80620", name: "4 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false, uid: 5 },
-            { id: "80622", name: "2 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false, uid: 6 },
-            { id: "80624", name: "1 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false, uid: 7 },
-            { id: "80628", name: "F CONNECTOR, FOR COAX IVORY", category: "Plates/Jacks", isPopular: false, uid: 8 },
-            { id: "80630", name: "8\" UV CABLE TIES (BAG)", category: "Hardware", isPopular: false, uid: 9 },
-            { id: "80632", name: "7' CAT5e PATCH CABLE", category: "Fiber/Copper", isPopular: false, uid: 10 },
-            { id: "80636", name: "DRYWALL BRACKET", category: "Hardware", isPopular: false, uid: 11 },
-            { id: "80640", name: "SURFACE MOUNT 1 PORT, WHITE", category: "Plates/Jacks", isPopular: false, uid: 12 },
-            { id: "80642", name: "SURFACE MOUNT 2 PORT, WHITE", category: "Plates/Jacks", isPopular: false, uid: 13 },
-            { id: "80644", name: "SURFACE MOUNT 1 PORT, IVORY", category: "Plates/Jacks", isPopular: false, uid: 14 },
-            { id: "80646", name: "SURFACE MOUNT 2 PORT, IVORY", category: "Plates/Jacks", isPopular: false, uid: 15 },
-            { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true, uid: 16 },
-            { id: "NA", name: "7' FIBER JUMPER", category: "Fiber/Copper", isPopular: true, uid: 17 },
-            { id: "NA", name: "25' FIBER JUMPER", category: "Fiber/Copper", isPopular: true, uid: 18 },
-            { id: "NA", name: "50' FIBER JUMPER", category: "Fiber/Copper", isPopular: true, uid: 19 },
-            { id: "NA", name: "75' FIBER JUMPER", category: "Fiber/Copper", isPopular: true, uid: 20 },
-            { id: "NA", name: "100' FIBER JUMPER", category: "Fiber/Copper", isPopular: true, uid: 21 },
-            { id: "NA", name: "125' FIBER JUMPER", category: "Fiber/Copper", isPopular: true, uid: 22 },
-            { id: "NA", name: "150' FIBER JUMPER", category: "Fiber/Copper", isPopular: false, uid: 23 },
-            { id: "80634", name: "SILICONE", category: "Hardware", isPopular: false, uid: 24 },
-            { id: "80654", name: "SCOTCH LOCKS", category: "Hardware", isPopular: false, uid: 25 },
-            { id: "NA", name: "TII BOXES-WHITE", category: "Plates/Jacks", isPopular: true, uid: 26 },
-            { id: "NA", name: "TII BOXES-GRAY", category: "Hardware", isPopular: false, uid: 27 },
-            { id: "NA", name: "BOX OF CAT 6", category: "Fiber/Copper", isPopular: false, uid: 28 },
-            { id: "NA", name: "RJ11", category: "Hardware", isPopular: false, uid: 29 },
-            { id: "NA", name: "CAT5 CLIPS", category: "Hardware", isPopular: false, uid: 30 },
-            { id: "NA", name: "ELECTRICAL TAPE", category: "Hardware", isPopular: false, uid: 31 },
-            { id: "NA", name: "CABLE CLIP SCREWS", category: "Hardware", isPopular: false, uid: 32 },
-            { id: "NA", name: "PHONE INSERT, WHITE", category: "Plates/Jacks", isPopular: false, uid: 33 },
-            { id: "NA", name: "PHONE INSERT, IVORY", category: "Plates/Jacks", isPopular: false, uid: 34 },
-            { id: "NA", name: "BLANK INSERT, WHITE", category: "Plates/Jacks", isPopular: false, uid: 35 },
-            { id: "NA", name: "BLANK INSERT, IVORY", category: "Plates/Jacks", isPopular: false, uid: 36 },
-            { id: "NA", name: "HDMI CORDS", category: "Hardware", isPopular: false, uid: 37 },
-            { id: "NA", name: "AMINO REMOTES", category: "Equipment", isPopular: false, uid: 38 },
-            { id: "NA", name: "AA BATTERIES", category: "Hardware", isPopular: false, uid: 39 },
-            { id: "NA", name: "AAA BATTERIES", category: "Hardware", isPopular: false, uid: 40 },
-            { id: "NA", name: "9V BATTERIES", category: "Hardware", isPopular: false, uid: 41 },
-            { id: "NA", name: "RJ45", category: "Hardware", isPopular: false, uid: 42 },
-            { id: "80030", name: "PLUME POD", category: "Equipment", isPopular: false, uid: 43 },
-            { id: "80603", name: "GP1100X", category: "Equipment", isPopular: true, uid: 44 },
-            { id: "80005", name: "HD SET TOP 651", category: "Equipment", isPopular: false, uid: 45 },
-            { id: "80005", name: "WIRELESS 7B", category: "Equipment", isPopular: true, uid: 46 },
-            { id: "80005", name: "HD SET TOP 7X", category: "Equipment", isPopular: false, uid: 47 },
-            { id: "80006", name: "SET BACK BOX", category: "Equipment", isPopular: false, uid: 48 },
-            { id: "80015", name: "AMINO AMULET DVR", category: "Equipment", isPopular: false, uid: 49 },
-            { id: "80604", name: "U4/GS2028E", category: "Equipment", isPopular: false, uid: 50 },
-            { id: "80605", name: "U6/GS4227W", category: "Equipment", isPopular: false, uid: 51 },
-            { id: "80606", name: "U4M/GM1028", category: "Equipment", isPopular: false, uid: 52 },
-            { id: "80607", name: "10G OPTI", category: "Equipment", isPopular: false, uid: 53 },
-            { id: "80608", name: "1G OPTI", category: "Equipment", isPopular: false, uid: 54 },
-            { id: "80910", name: "U10X", category: "Equipment", isPopular: false, uid: 55 },
-            { id: "80609", name: "4200 OUTDOOR ONT", category: "Equipment", isPopular: false, uid: 56 },
-            { id: "NA", name: "XGSPON Calix SFP+", category: "Hardware", isPopular: false, uid: 57 },
-            { id: "NA", name: "U6XTG", category: "Equipment", isPopular: true, uid: 58 },
-            { id: "NA", name: "GP1101", category: "Equipment", isPopular: true, uid: 59 },
-            { id: "NA", name: "U6T", category: "Equipment", isPopular: true, uid: 60 }
+            { id: "80610", name: "4 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80612", name: "2 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80614", name: "1 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80616", name: "CAT5e KEYSTONE, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80618", name: "F CONNECTOR, FOR COAX WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80620", name: "4 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80622", name: "2 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80624", name: "1 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80628", name: "F CONNECTOR, FOR COAX IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80630", name: "8\" UV CABLE TIES (BAG)", category: "Hardware", isPopular: false },
+            { id: "80632", name: "7' CAT5e PATCH CABLE", category: "Fiber/Copper", isPopular: false },
+            { id: "80636", name: "DRYWALL BRACKET", category: "Hardware", isPopular: false },
+            { id: "80640", name: "SURFACE MOUNT 1 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80642", name: "SURFACE MOUNT 2 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "80644", name: "SURFACE MOUNT 1 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "80646", name: "SURFACE MOUNT 2 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "7' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "25' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "50' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "75' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "100' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "125' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "150' FIBER JUMPER", category: "Fiber/Copper", isPopular: false },
+            { id: "80634", name: "SILICONE", category: "Hardware", isPopular: false },
+            { id: "80654", name: "SCOTCH LOCKS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "TII BOXES-WHITE", category: "Plates/Jacks", isPopular: true },
+            { id: "NA", name: "TII BOXES-GRAY", category: "Hardware", isPopular: false },
+            { id: "NA", name: "BOX OF CAT 6", category: "Fiber/Copper", isPopular: false },
+            { id: "NA", name: "RJ11", category: "Hardware", isPopular: false },
+            { id: "NA", name: "CAT5 CLIPS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "ELECTRICAL TAPE", category: "Hardware", isPopular: false },
+            { id: "NA", name: "CABLE CLIP SCREWS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "PHONE INSERT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "PHONE INSERT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "BLANK INSERT, WHITE", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "BLANK INSERT, IVORY", category: "Plates/Jacks", isPopular: false },
+            { id: "NA", name: "HDMI CORDS", category: "Hardware", isPopular: false },
+            { id: "NA", name: "AMINO REMOTES", category: "Equipment", isPopular: false },
+            { id: "NA", name: "AA BATTERIES", category: "Hardware", isPopular: false },
+            { id: "NA", name: "AAA BATTERIES", category: "Hardware", isPopular: false },
+            { id: "NA", name: "9V BATTERIES", category: "Hardware", isPopular: false },
+            { id: "NA", name: "RJ45", category: "Hardware", isPopular: false },
+            { id: "80030", name: "PLUME POD", category: "Equipment", isPopular: false },
+            { id: "80603", name: "GP1100X", category: "Equipment", isPopular: true },
+            { id: "80005", name: "HD SET TOP 651", category: "Equipment", isPopular: false },
+            { id: "80005", name: "WIRELESS 7B", category: "Equipment", isPopular: true },
+            { id: "80005", name: "HD SET TOP 7X", category: "Equipment", isPopular: false },
+            { id: "80006", name: "SET BACK BOX", category: "Equipment", isPopular: false },
+            { id: "80015", name: "AMINO AMULET DVR", category: "Equipment", isPopular: false },
+            { id: "80604", name: "U4/GS2028E", category: "Equipment", isPopular: false },
+            { id: "80605", name: "U6/GS4227W", category: "Equipment", isPopular: false },
+            { id: "80606", name: "U4M/GM1028", category: "Equipment", isPopular: false },
+            { id: "80607", name: "10G OPTI", category: "Equipment", isPopular: false },
+            { id: "80608", name: "1G OPTI", category: "Equipment", isPopular: false },
+            { id: "80910", name: "U10X", category: "Equipment", isPopular: false },
+            { id: "80609", name: "4200 OUTDOOR ONT", category: "Equipment", isPopular: false },
+            { id: "NA", name: "XGSPON Calix SFP+", category: "Hardware", isPopular: false },
+            { id: "NA", name: "U6XTG", category: "Equipment", isPopular: true },
+            { id: "NA", name: "GP1101", category: "Equipment", isPopular: true },
+            { id: "NA", name: "U6T", category: "Equipment", isPopular: true }
         ];
 
-        // Ensure all items have a UID, even if the static list was missing it in the past.
-        catalog.forEach((item, index) => { 
-            if (typeof item.uid === 'undefined') {
-                item.uid = index; 
-            }
-        });
+        catalog.forEach((item, index) => { item.uid = index; });
 
         // --- STATE ---
         let cart = {};  
@@ -253,7 +247,7 @@
             }
         }
 
-        // --- CART DRAWER LOGIC ---
+        // --- NEW: CART DRAWER LOGIC ---
         function toggleCartDrawer() {
             const body = document.body;
             const drawer = document.getElementById('cartDrawer');
@@ -323,8 +317,10 @@
                 document.body.classList.remove('drawer-open');
             }
         }
+        // --- END NEW CART LOGIC ---
 
-        // --- UI ---
+
+        // --- UI (EXISTING FUNCTIONS MODIFIED TO CALL renderCart) ---
         function renderGrid() {
             const container = document.getElementById('gridContainer');
             container.innerHTML = '';
@@ -366,24 +362,20 @@
         function updateQty(uid, change) {
             const item = catalog[uid];  
             if (!item) return;
-
-            // Initialize cart entry if it doesn't exist
             if (!cart[item.name]) cart[item.name] = 0;
             
-            // Update quantity
             cart[item.name] += change;
             
-            // Enforce minimum zero
             if (cart[item.name] < 0) cart[item.name] = 0;
             
-            // If quantity is zero, remove the key from the cart object
+            // NEW: Clean up zero-quantity entries
             if (cart[item.name] === 0) {
                 delete cart[item.name];
             }
             
-            // Re-render
             renderGrid();
-            renderCart();  
+            // Call renderCart to update counts and drawer contents/state
+            renderCart(); 
         }
 
         function getIconForCategory(cat) {
@@ -417,16 +409,16 @@
             const drawer = document.getElementById('cartDrawer');
             if(drawer.classList.contains('open')) toggleCartDrawer(); // Close drawer on download
 
-            const cartItems = catalog.filter(item => cart[item.name] > 0);
-            
-            if (cartItems.length === 0) {
+            // Check if cart is empty, use the same logic as the download button in the drawer.
+            const cartItemsCount = Object.keys(cart).filter(key => cart[key] > 0).length;
+            if (cartItemsCount === 0) {
                  alert("Your cart is empty. Please add items before downloading the request form.");
                  // Open the drawer to prompt user to add items
                  toggleCartDrawer(); 
                  return;
             }
-            
-            // Get header values
+
+            // Check if details are empty
             const issuedBy = document.getElementById('issuedBy').value;
             if(!issuedBy && !confirm("The 'Issued By' field is empty. Do you want to download anyway?")) {
                 if(!isDetailsOpen) toggleDetails();
@@ -438,14 +430,15 @@
             const toWh = document.getElementById('toWarehouse').value;
             const receivedBy = document.getElementById('receivedBy').value;
             
-            // Get and format date
+            // GET DATE FROM INPUT
             const rawDate = document.getElementById('orderDate').value;
+            // Add T00:00 to ensure timezone doesn't shift the date back 1 day
             const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString();  
 
-            // Split items into two columns for the Excel sheet layout
-            const midpoint = Math.ceil(cartItems.length / 2);
-            const leftColItems = cartItems.slice(0, midpoint);
-            const rightColItems = cartItems.slice(midpoint);
+            // Split ALL catalog items into two columns for the Excel sheet layout, preserving existing behavior
+            const midpoint = Math.ceil(catalog.length / 2);
+            const leftColItems = catalog.slice(0, midpoint);
+            const rightColItems = catalog.slice(midpoint);
 
             let ws_data = [
                 ["BROADBAND MATERIAL ISSUE SHEET"], 
@@ -462,8 +455,9 @@
                 const leftItem = leftColItems[i] || { id: "", name: "" };
                 const rightItem = rightColItems[i] || { id: "", name: "" };
 
-                const leftQty = leftItem.name ? (cart[leftItem.name] || "") : "";
-                const rightQty = rightItem.name ? (cart[rightItem.name] || "") : "";
+                // Use the quantity from the cart state, only if > 0, otherwise empty string
+                const leftQty = cart[leftItem.name] > 0 ? cart[leftItem.name] : "";
+                const rightQty = cart[rightItem.name] > 0 ? cart[rightItem.name] : "";
 
                 ws_data.push([
                     leftItem.id, leftItem.name, leftQty, "", 
@@ -475,10 +469,8 @@
             const ws = XLSX.utils.aoa_to_sheet(ws_data);
             ws['!cols'] = [ {wch: 10}, {wch: 35}, {wch: 8}, {wch: 5}, {wch: 10}, {wch: 35}, {wch: 8} ];
 
-            // Apply merge for the title row
+            // Apply merge and styling for the title
             ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }];
-            
-            // Center the title
             const titleCell = ws['A1'];
             if (titleCell) {
                 titleCell.s = { alignment: { horizontal: "center" } };
