@@ -1,6 +1,7 @@
-📦 Broadband Material Request Form Readme
 This document provides an overview and instructions for the Broadband Material Request Form, a single-page web application designed for quick material ordering and generation of a formal issue sheet.
+
 💡 Overview
+
 The application is a client-side tool allowing field staff or warehouse personnel to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.
 It is built as a highly responsive, app-like experience for use on mobile devices and desktop browsers.
 🛠️ Technology & Dependencies
@@ -8,13 +9,17 @@ This application is built entirely on the client side (in the user's browser) us
  * HTML5 & Vanilla JavaScript: Core structure and operational logic.
  * Tailwind CSS (via CDN): Provides modern, utility-first styling and ensures responsiveness.
  * SheetJS (js-xlsx via CDN): Essential library for generating and formatting the final Excel spreadsheet file.
+
 🚀 Key Features
+
  * Mobile-Optimized Interface: Designed for rapid item selection on a small screen with sticky headers, search, and category filters.
  * Interactive Catalog: Allows quantity selection directly on the main grid. Selected items are visually highlighted.
  * Dynamic Cart Drawer: A slide-up interface to review, modify, and remove items before download.
  * Required Field Validation: Ensures the Truck Number is entered before the download can proceed.
  * Automatic Excel Generation: Outputs a structured material issue sheet with item IDs, descriptions, and requested quantities, along with necessary header information (Date, Warehouses, Personnel).
+
 📝 How to Use
+
  * Enter Order Details
    * On desktop, the input fields are visible at the top.
    * On mobile, tap the "📝 Order Info" button to toggle the details section open.
@@ -27,7 +32,9 @@ This application is built entirely on the client side (in the user's browser) us
    * Tap "View Cart" in the footer to open the Cart Drawer for a full review of selected items.
    * Click the green "Download Order" button (available in both the footer and the cart drawer).
    * The browser will download an Excel file named: [YYYY-MM-DD] [Truck Number] broadband order request.xlsx.
+
 ⚠️ Maintenance Notes
+
  * Hardcoded Catalog: The entire material list is hardcoded in the <script> tag. To update the catalog (add/remove items or change IDs), the source HTML file must be edited and re-uploaded.
  * No Data Persistence: Cart selections and input fields are not saved if the page is closed or refreshed. The user must complete the order and download the Excel file in a single session.
  * Unique IDs: Note that some items use the ID "NA". While this works for the current functionality, using unique, actual part numbers is highly recommended for inventory system compatibility.
