@@ -1,3 +1,14 @@
+It looks like you want to add a feature to **display the current contents of the order cart** directly on the webpage.
+
+I'll implement this by:
+
+1.  Adding a new **Cart Section** (`#cart-summary`) below the main content grid.
+2.  Creating a `renderCart()` function to display the selected items (those with quantity $>0$) in a table-like format.
+3.  Calling `renderCart()` whenever the quantities are updated (`updateQty`).
+
+Here is the complete, updated HTML/JavaScript code.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +26,8 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .card-selected { border: 2px solid #2563eb; background-color: #eff6ff; }
         #orderInputs { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
+        /* Safe area bottom padding for fixed element */
+        .safe-area-pb { padding-bottom: calc(1rem + env(safe-area-inset-bottom)); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 pb-32">
@@ -87,8 +100,15 @@
 
     <div class="max-w-7xl mx-auto px-3 py-4">
         <div id="gridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-            </div>
-    </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-blue-800 mt-8 mb-3 border-b pb-2">🛒 Current Order Cart</h2>
+        <div id="cart-summary" class="bg-white rounded-xl shadow-md p-4">
+            <p id="empty-cart-message" class="text-gray-500 italic text-center">Your cart is empty. Add items to see them here.</p>
+            <div id="cart-items-container" class="space-y-2">
+                </div>
+        </div>
+        </div>
 
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-3 z-30 safe-area-pb">
         <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
@@ -122,7 +142,7 @@
             { id: "80642", name: "SURFACE MOUNT 2 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
             { id: "80644", name: "SURFACE MOUNT 1 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
             { id: "80646", name: "SURFACE MOUNT 2 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
-             { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true },
+            { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true },
             { id: "NA", name: "7' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
             { id: "NA", name: "25' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
             { id: "NA", name: "50' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
@@ -172,7 +192,7 @@
         catalog.forEach((item, index) => { item.uid = index; });
 
         // --- STATE ---
-        let cart = {}; 
+        let cart = {};  
         let currentFilter = 'All';
         let isDetailsOpen = false;
 
@@ -181,7 +201,9 @@
         document.getElementById('orderDate').value = today;
         document.getElementById('orderDateMobile').value = today;
 
+        // Initial render
         renderGrid();
+        renderCart();
 
         function syncDates(val) {
             document.getElementById('orderDate').value = val;
@@ -244,17 +266,64 @@
             });
         }
 
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const emptyMessage = document.getElementById('empty-cart-message');
+            container.innerHTML = '';
+            let itemCount = 0;
+
+            // Get a list of items currently in the cart
+            const cartItems = catalog
+                .filter(item => cart[item.name] > 0)
+                .map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    qty: cart[item.name],
+                    category: item.category
+                }))
+                .sort((a, b) => a.name.localeCompare(b.name));
+
+            if (cartItems.length === 0) {
+                emptyMessage.classList.remove('hidden');
+                return;
+            } else {
+                emptyMessage.classList.add('hidden');
+            }
+
+            // Create a table or list for the cart items
+            const table = document.createElement('div');
+            table.className = 'grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2';
+
+            cartItems.forEach(item => {
+                itemCount++;
+                const itemElement = document.createElement('div');
+                itemElement.className = 'flex items-center justify-between border-b border-gray-100 pb-1';
+                itemElement.innerHTML = `
+                    <div class="text-sm font-medium text-gray-700 truncate">${item.name}</div>
+                    <div class="text-base font-bold text-blue-900 flex-shrink-0 ml-4">
+                        ${item.qty} <span class="text-gray-400 font-normal">x</span>
+                    </div>
+                `;
+                table.appendChild(itemElement);
+            });
+
+            container.appendChild(table);
+
+            // Update total count in fixed footer (This logic is also in updateQty, but good to keep here for completeness)
+            document.getElementById('totalCount').innerText = itemCount;
+        }
+
+
         function updateQty(uid, change) {
-            const item = catalog[uid]; 
+            const item = catalog[uid];  
             if (!item) return;
             if (!cart[item.name]) cart[item.name] = 0;
             cart[item.name] += change;
             if (cart[item.name] < 0) cart[item.name] = 0;
             
+            // Re-render both the grid and the cart summary
             renderGrid();
-            let count = 0;
-            Object.values(cart).forEach(val => { if(val > 0) count++ });
-            document.getElementById('totalCount').innerText = count;
+            renderCart(); // *** NEW CALL ***
         }
 
         function getIconForCategory(cat) {
@@ -296,7 +365,7 @@
             // GET DATE FROM INPUT
             const rawDate = document.getElementById('orderDate').value;
             // Add T00:00 to ensure timezone doesn't shift the date back 1 day
-            const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString(); 
+            const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString();  
 
             const midpoint = Math.ceil(catalog.length / 2);
             const leftColItems = catalog.slice(0, midpoint);
