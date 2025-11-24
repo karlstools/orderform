@@ -6,6 +6,7 @@
     <title>Broadband Material Request</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 
     <style>
@@ -86,7 +87,7 @@
 
     <div class="max-w-7xl mx-auto px-3 py-4">
         <div id="gridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        </div>
+            </div>
     </div>
 
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-3 z-30 safe-area-pb">
@@ -103,6 +104,7 @@
     </div>
 
     <script>
+        // --- DATA ---
         const catalog = [
             { id: "80610", name: "4 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
             { id: "80612", name: "2 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
@@ -120,7 +122,7 @@
             { id: "80642", name: "SURFACE MOUNT 2 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
             { id: "80644", name: "SURFACE MOUNT 1 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
             { id: "80646", name: "SURFACE MOUNT 2 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true },
+             { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true },
             { id: "NA", name: "7' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
             { id: "NA", name: "25' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
             { id: "NA", name: "50' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
@@ -169,10 +171,12 @@
 
         catalog.forEach((item, index) => { item.uid = index; });
 
+        // --- STATE ---
         let cart = {}; 
         let currentFilter = 'All';
         let isDetailsOpen = false;
 
+        // Initialize Dates
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('orderDate').value = today;
         document.getElementById('orderDateMobile').value = today;
@@ -184,6 +188,7 @@
             document.getElementById('orderDateMobile').value = val;
         }
 
+        // --- TOGGLE MOBILE DETAILS ---
         function toggleDetails() {
             const el = document.getElementById('orderInputs');
             const chev = document.getElementById('chevron');
@@ -200,6 +205,7 @@
             }
         }
 
+        // --- UI ---
         function renderGrid() {
             const container = document.getElementById('gridContainer');
             container.innerHTML = '';
@@ -275,6 +281,7 @@
         document.getElementById('searchInput').addEventListener('keyup', renderGrid);
 
         function generateExcel() {
+            // Check if details are empty
             const issuedBy = document.getElementById('issuedBy').value;
             if(!issuedBy && !confirm("The 'Issued By' field is empty. Do you want to download anyway?")) {
                 if(!isDetailsOpen) toggleDetails();
@@ -286,7 +293,9 @@
             const toWh = document.getElementById('toWarehouse').value;
             const receivedBy = document.getElementById('receivedBy').value;
             
+            // GET DATE FROM INPUT
             const rawDate = document.getElementById('orderDate').value;
+            // Add T00:00 to ensure timezone doesn't shift the date back 1 day
             const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString(); 
 
             const midpoint = Math.ceil(catalog.length / 2);
@@ -326,3 +335,4 @@
         }
     </script>
 </body>
+</html>
