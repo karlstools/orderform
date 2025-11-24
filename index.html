@@ -15,7 +15,23 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .card-selected { border: 2px solid #2563eb; background-color: #eff6ff; }
         #orderInputs { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
-        /* Safe area bottom padding for fixed element */
+        
+        /* New Styles for the Cart Slider */
+        #cart-slider {
+            position: fixed;
+            bottom: 6rem; /* Adjust based on the height of the fixed footer */
+            left: 0;
+            right: 0;
+            max-height: 50vh; /* Maximum height for the pull-up panel */
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            z-index: 25;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.15);
+            overflow-y: auto;
+        }
+        #cart-slider.open {
+            transform: translateY(0);
+        }
         .safe-area-pb { padding-bottom: calc(1rem + env(safe-area-inset-bottom)); }
     </style>
 </head>
@@ -90,20 +106,31 @@
     <div class="max-w-7xl mx-auto px-3 py-4">
         <div id="gridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         </div>
+    </div>
 
-        <h2 class="text-xl font-bold text-blue-800 mt-8 mb-3 border-b pb-2">🛒 Current Order Cart</h2>
-        <div id="cart-summary" class="bg-white rounded-xl shadow-md p-4">
-            <p id="empty-cart-message" class="text-gray-500 italic text-center">Your cart is empty. Add items to see them here.</p>
-            <div id="cart-items-container" class="space-y-2">
+    <div id="cart-slider" class="bg-white border-t border-gray-200 rounded-t-xl">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-bold text-blue-800 flex items-center gap-2">
+                    🛒 Order Details (<span id="sliderItemCount">0</span> items)
+                </h2>
+                <button onclick="toggleCartSlider(false)" class="text-sm font-semibold text-red-500 hover:text-red-700">
+                    Close
+                </button>
+            </div>
+            <div id="cart-items-container" class="space-y-3 pb-2 overflow-y-auto max-h-56">
+                <p id="empty-cart-message" class="text-gray-500 italic text-center py-4">Your cart is empty. Add items above.</p>
                 </div>
         </div>
-        </div>
-
+    </div>
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-3 z-30 safe-area-pb">
         <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
-            <div class="flex flex-col">
-                <div class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total Items</div>
-                <div class="text-xl font-black text-blue-900 leading-none"><span id="totalCount">0</span></div>
+            <div onclick="toggleCartSlider()" class="flex flex-col cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition">
+                <div class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Tap to View Order</div>
+                <div class="text-xl font-black text-blue-900 leading-none">
+                    <span id="totalCount">0</span> 
+                    <span class="text-base text-gray-500">Items Selected</span>
+                </div>
             </div>
             <button onclick="generateExcel()" class="flex-1 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
                 <span>Download Order</span>
@@ -184,6 +211,7 @@
         let cart = {};  
         let currentFilter = 'All';
         let isDetailsOpen = false;
+        let isCartSliderOpen = false; // New state variable
 
         // Initialize Dates
         const today = new Date().toISOString().split('T')[0];
@@ -192,14 +220,84 @@
 
         // Initial render
         renderGrid();
-        renderCart();
+        renderCartSlider();
+
+
+        // --- CART SLIDER LOGIC ---
+        function toggleCartSlider(forceState) {
+            const slider = document.getElementById('cart-slider');
+            const totalCount = document.getElementById('totalCount').innerText;
+
+            if (totalCount === '0') {
+                isCartSliderOpen = false;
+            } else {
+                isCartSliderOpen = forceState === undefined ? !isCartSliderOpen : forceState;
+            }
+
+            if (isCartSliderOpen) {
+                slider.classList.add('open');
+                // Ensure the list is rendered when opening
+                renderCartSlider(); 
+            } else {
+                slider.classList.remove('open');
+            }
+        }
+
+        function renderCartSlider() {
+            const container = document.getElementById('cart-items-container');
+            const emptyMessage = document.getElementById('empty-cart-message');
+            const totalCountElement = document.getElementById('totalCount');
+            const sliderItemCountElement = document.getElementById('sliderItemCount');
+            
+            container.innerHTML = '';
+            let itemCount = 0;
+
+            const cartItems = catalog
+                .filter(item => cart[item.name] > 0)
+                .map(item => ({
+                    uid: item.uid, // Add uid for potential removal/adjustment later
+                    name: item.name,
+                    qty: cart[item.name],
+                    category: item.category
+                }))
+                .sort((a, b) => a.name.localeCompare(b.name));
+
+            if (cartItems.length === 0) {
+                emptyMessage.classList.remove('hidden');
+            } else {
+                emptyMessage.classList.add('hidden');
+                
+                cartItems.forEach(item => {
+                    itemCount++;
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex items-center justify-between bg-gray-50 p-2 rounded';
+                    itemElement.innerHTML = `
+                        <div class="text-sm font-medium text-gray-700 truncate">${item.name}</div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQty(${item.uid}, -1)" class="w-6 h-6 flex items-center justify-center rounded-full bg-white border border-gray-300 text-gray-600 hover:bg-gray-100 font-bold text-sm touch-manipulation">-</button>
+                            <span class="text-base font-bold text-blue-900">${item.qty}</span>
+                            <button onclick="updateQty(${item.uid}, 1)" class="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 font-bold text-sm touch-manipulation">+</button>
+                        </div>
+                    `;
+                    container.appendChild(itemElement);
+                });
+            }
+
+            totalCountElement.innerText = itemCount;
+            sliderItemCountElement.innerText = itemCount;
+
+            // If the cart empties, close the slider automatically
+            if (itemCount === 0 && isCartSliderOpen) {
+                toggleCartSlider(false);
+            }
+        }
+        // --- END CART SLIDER LOGIC ---
 
         function syncDates(val) {
             document.getElementById('orderDate').value = val;
             document.getElementById('orderDateMobile').value = val;
         }
 
-        // --- TOGGLE MOBILE DETAILS ---
         function toggleDetails() {
             const el = document.getElementById('orderInputs');
             const chev = document.getElementById('chevron');
@@ -255,54 +353,6 @@
             });
         }
 
-        function renderCart() {
-            const container = document.getElementById('cart-items-container');
-            const emptyMessage = document.getElementById('empty-cart-message');
-            container.innerHTML = '';
-            let itemCount = 0;
-
-            // Get a list of items currently in the cart
-            const cartItems = catalog
-                .filter(item => cart[item.name] > 0)
-                .map(item => ({
-                    id: item.id,
-                    name: item.name,
-                    qty: cart[item.name],
-                    category: item.category
-                }))
-                .sort((a, b) => a.name.localeCompare(b.name));
-
-            if (cartItems.length === 0) {
-                emptyMessage.classList.remove('hidden');
-                return;
-            } else {
-                emptyMessage.classList.add('hidden');
-            }
-
-            // Create a table or list for the cart items
-            const table = document.createElement('div');
-            table.className = 'grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2';
-
-            cartItems.forEach(item => {
-                itemCount++;
-                const itemElement = document.createElement('div');
-                itemElement.className = 'flex items-center justify-between border-b border-gray-100 pb-1';
-                itemElement.innerHTML = `
-                    <div class="text-sm font-medium text-gray-700 truncate">${item.name}</div>
-                    <div class="text-base font-bold text-blue-900 flex-shrink-0 ml-4">
-                        ${item.qty} <span class="text-gray-400 font-normal">x</span>
-                    </div>
-                `;
-                table.appendChild(itemElement);
-            });
-
-            container.appendChild(table);
-
-            // Update total count in fixed footer (This logic is also in updateQty, but good to keep here for completeness)
-            document.getElementById('totalCount').innerText = itemCount;
-        }
-
-
         function updateQty(uid, change) {
             const item = catalog[uid];  
             if (!item) return;
@@ -312,7 +362,7 @@
             
             // Re-render both the grid and the cart summary
             renderGrid();
-            renderCart(); // *** NEW CALL ***
+            renderCartSlider();
         }
 
         function getIconForCategory(cat) {
