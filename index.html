@@ -1,3 +1,12 @@
+That's a great suggestion! Adding a way to view the cart will significantly improve the user experience by providing a clear summary of the selected items before download.
+Here is the updated HTML/JavaScript code. I've added a new section at the end of the body to act as a Cart Drawer which slides up from the bottom when triggered, and a function to render the cart content.
+Key Changes Made:
+ * Cart Drawer UI: Added a hidden, fixed-position div (#cartDrawer) that slides up from the bottom to display the cart contents.
+ * Cart Button: The "Download Order" button is now wrapped in a container that also includes a new "View Cart" button to toggle the drawer.
+ * renderCart() Function: A new function to dynamically generate the list of items in the cart object and update the total quantity display.
+ * toggleCartDrawer() Function: Manages the visibility of the cart drawer.
+ * Integration: The updateQty function now calls renderCart() to keep the drawer updated.
+<!-- end list -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +24,18 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .card-selected { border: 2px solid #2563eb; background-color: #eff6ff; }
         #orderInputs { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
+        
+        /* New Cart Drawer Styles */
+        #cartDrawer {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .cart-open #cartDrawer {
+            transform: translateY(0);
+        }
+        .cart-open body {
+            overflow: hidden; /* Prevent body scroll when cart is open */
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 pb-32">
@@ -96,13 +117,40 @@
                 <div class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total Items</div>
                 <div class="text-xl font-black text-blue-900 leading-none"><span id="totalCount">0</span></div>
             </div>
-            <button onclick="generateExcel()" class="flex-1 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
+            
+            <button onclick="toggleCartDrawer()" class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95 text-sm flex-1 md:flex-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span class="hidden md:inline">View</span> Cart
+            </button>
+            
+            <button onclick="generateExcel()" class="bg-green-600 hover:bg-green-700 active:bg-green-800 text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95 flex-1">
                 <span>Download Order</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             </button>
         </div>
     </div>
-
+    <div id="cartDrawer" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-2xl z-40 max-h-[80vh] flex flex-col">
+        <div class="p-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white">
+            <h2 class="text-xl font-bold text-blue-900 flex items-center gap-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                Your Material Cart
+                <span id="cartTotalItems" class="text-sm bg-blue-600 text-white rounded-full px-2 py-0.5 ml-1">0</span>
+            </h2>
+            <button onclick="toggleCartDrawer()" class="text-gray-500 hover:text-gray-800 p-1 rounded-full bg-gray-100 hover:bg-gray-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        
+        <div id="cartList" class="flex-grow overflow-y-auto p-4 space-y-3">
+            </div>
+        
+        <div class="p-4 border-t border-gray-200">
+            <button onclick="generateExcel()" class="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
+                <span>Download Order with <span id="cartDownloadCount">0</span> Items</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            </button>
+        </div>
+    </div>
     <script>
         // --- DATA ---
         const catalog = [
@@ -175,6 +223,7 @@
         let cart = {}; 
         let currentFilter = 'All';
         let isDetailsOpen = false;
+        let isCartOpen = false; // New state variable
 
         // Initialize Dates
         const today = new Date().toISOString().split('T')[0];
@@ -203,6 +252,59 @@
                 el.style.opacity = "0";
                 chev.style.transform = "rotate(0deg)";
             }
+        }
+
+        // --- CART DRAWER LOGIC (NEW) ---
+        function toggleCartDrawer() {
+            isCartOpen = !isCartOpen;
+            const body = document.body;
+            const drawer = document.getElementById('cartDrawer');
+            
+            if (isCartOpen) {
+                body.classList.add('cart-open');
+            } else {
+                body.classList.remove('cart-open');
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartList = document.getElementById('cartList');
+            cartList.innerHTML = '';
+            let totalItems = 0;
+            let cartCatalog = catalog.filter(item => cart[item.name] > 0);
+            
+            if (cartCatalog.length === 0) {
+                cartList.innerHTML = '<p class="text-center text-gray-500 py-12">Your cart is empty. Add items from the catalog below.</p>';
+            } else {
+                cartCatalog.forEach(item => {
+                    const qty = cart[item.name];
+                    totalItems += 1; // Count of unique items
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-lg shadow-sm border border-gray-100';
+                    
+                    // Find the original index for updateQty
+                    const uid = item.uid;
+
+                    itemDiv.innerHTML = `
+                        <div class="flex flex-col flex-grow min-w-0 mr-4">
+                            <span class="text-xs font-mono bg-white text-gray-500 px-1.5 py-0.5 rounded self-start">${item.id}</span>
+                            <h4 class="font-semibold text-sm text-gray-800 truncate">${item.name}</h4>
+                        </div>
+                        <div class="flex items-center flex-shrink-0">
+                            <button onclick="updateQty(${uid}, -1)" class="w-7 h-7 flex items-center justify-center rounded bg-white shadow-sm text-gray-600 active:bg-gray-200 font-bold text-base touch-manipulation border border-gray-200">-</button>
+                            <span class="w-8 text-center font-bold text-gray-800 text-base mx-1">${qty}</span>
+                            <button onclick="updateQty(${uid}, 1)" class="w-7 h-7 flex items-center justify-center rounded bg-blue-600 shadow-sm text-white active:bg-blue-800 font-bold text-base touch-manipulation">+</button>
+                        </div>
+                    `;
+                    cartList.appendChild(itemDiv);
+                });
+            }
+
+            // Update footer counts
+            document.getElementById('totalCount').innerText = totalItems;
+            document.getElementById('cartTotalItems').innerText = totalItems;
+            document.getElementById('cartDownloadCount').innerText = totalItems;
         }
 
         // --- UI ---
@@ -251,10 +353,16 @@
             cart[item.name] += change;
             if (cart[item.name] < 0) cart[item.name] = 0;
             
+            // Re-render both the main grid and the cart drawer
             renderGrid();
-            let count = 0;
-            Object.values(cart).forEach(val => { if(val > 0) count++ });
-            document.getElementById('totalCount').innerText = count;
+            renderCart(); 
+
+            // If an item's quantity goes to zero, remove it from the cart object to keep it clean
+            if(cart[item.name] === 0) {
+                delete cart[item.name];
+                renderGrid(); // Re-render once more to remove 'selected' styling on the main page
+                renderCart();
+            }
         }
 
         function getIconForCategory(cat) {
@@ -267,7 +375,12 @@
         function filterCategory(cat) {
             currentFilter = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                if(btn.innerText.includes(cat) || (cat === 'Plates/Jacks' && btn.innerText.includes('Wall'))) {
+                // Adjusting logic to handle 'Wall Plates' button correctly
+                const btnText = btn.innerText;
+                const matchesCategory = (cat === 'Plates/Jacks' && btnText.includes('Wall')) || (cat !== 'Plates/Jacks' && btnText.includes(cat));
+                const matchesAll = cat === 'All' && btnText.includes('All');
+
+                if(matchesCategory || matchesAll) {
                     btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
                     btn.classList.remove('bg-white', 'border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
                 } else {
@@ -281,6 +394,8 @@
         document.getElementById('searchInput').addEventListener('keyup', renderGrid);
 
         function generateExcel() {
+            if(isCartOpen) toggleCartDrawer(); // Close drawer on download
+
             // Check if details are empty
             const issuedBy = document.getElementById('issuedBy').value;
             if(!issuedBy && !confirm("The 'Issued By' field is empty. Do you want to download anyway?")) {
@@ -298,9 +413,18 @@
             // Add T00:00 to ensure timezone doesn't shift the date back 1 day
             const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString(); 
 
-            const midpoint = Math.ceil(catalog.length / 2);
-            const leftColItems = catalog.slice(0, midpoint);
-            const rightColItems = catalog.slice(midpoint);
+            // Filter catalog to only include items in the cart (for accurate split)
+            const cartItems = catalog.filter(item => cart[item.name] > 0);
+            
+            if (cartItems.length === 0) {
+                 alert("Your cart is empty. Please add items before downloading the request form.");
+                 toggleCartDrawer();
+                 return;
+            }
+
+            const midpoint = Math.ceil(cartItems.length / 2);
+            const leftColItems = cartItems.slice(0, midpoint);
+            const rightColItems = cartItems.slice(midpoint);
 
             let ws_data = [
                 ["BROADBAND MATERIAL ISSUE SHEET"], 
@@ -317,8 +441,8 @@
                 const leftItem = leftColItems[i] || { id: "", name: "" };
                 const rightItem = rightColItems[i] || { id: "", name: "" };
 
-                const leftQty = cart[leftItem.name] > 0 ? cart[leftItem.name] : "";
-                const rightQty = cart[rightItem.name] > 0 ? cart[rightItem.name] : "";
+                const leftQty = leftItem.name ? (cart[leftItem.name] || "") : "";
+                const rightQty = rightItem.name ? (cart[rightItem.name] || "") : "";
 
                 ws_data.push([
                     leftItem.id, leftItem.name, leftQty, "", 
@@ -330,21 +454,19 @@
             const ws = XLSX.utils.aoa_to_sheet(ws_data);
             ws['!cols'] = [ {wch: 10}, {wch: 35}, {wch: 8}, {wch: 5}, {wch: 10}, {wch: 35}, {wch: 8} ];
 
+            // Apply merge for the title row
+            ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }];
+            
+            // Center the title
+            const titleCell = ws['A1'];
+            if (titleCell) {
+                titleCell.s = { alignment: { horizontal: "center" } };
+            }
+
             XLSX.utils.book_append_sheet(wb, ws, "Request");
             XLSX.writeFile(wb, `Broadband_Request_${issuedBy || 'Order'}_${rawDate}.xlsx`);
         }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
 
