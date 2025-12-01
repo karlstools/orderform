@@ -25,7 +25,7 @@
             transform: translateY(0);
         }
         
-        /* NEW: Help Modal Styles */
+        /* Help Modal Styles */
         #helpModal.hidden {
             opacity: 0;
             pointer-events: none;
@@ -48,7 +48,7 @@
     <div class="max-w-7xl mx-auto px-3 py-2 md:py-4 flex justify-between items-center bg-white z-30 relative">
         <h1 class="text-lg md:text-2xl font-bold text-blue-900 flex items-center gap-2">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-            Broadband Material Request
+            Material Request
         </h1>
         
         <div class="flex items-center gap-3">
@@ -69,7 +69,7 @@
             <input type="date" id="orderDate" class="bg-gray-50 border border-gray-300 rounded px-2 py-1 text-blue-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
     </div>
-    </div>
+    
 
         <div id="orderInputs" class="max-h-0 opacity-0 md:max-h-96 md:opacity-100 border-b md:border-none border-gray-100 bg-slate-50 md:bg-white">
             <div class="max-w-7xl mx-auto px-3 py-3">
@@ -114,6 +114,7 @@
                 <button onclick="filterCategory('Fiber/Copper')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber/Copper</button>
                 <button onclick="filterCategory('Plates/Jacks')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Wall Plates</button>
                 <button onclick="filterCategory('Hardware')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Hardware</button>
+                <button onclick="filterCategory('Bundles')" class="px-3 py-1.5 rounded-lg bg-purple-100 border border-purple-200 text-purple-700 text-xs font-bold hover:bg-purple-200 cat-btn whitespace-nowrap flex-shrink-0">📦 Bundles</button>
             </div>
         </div>
     </div>
@@ -135,60 +136,30 @@
                 <p class="mb-4">This document provides an overview and instructions for the **Broadband Material Request Form**, a single-page web application designed for quick material ordering and generation of a formal issue sheet.</p>
 
                 <h3 class="text-lg font-bold text-blue-700 mt-4 mb-2">💡 Overview</h3>
-                <p class="mb-4">The application is a client-side tool allowing field staff to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking. It is built as a highly responsive, app-like experience for use on mobile devices and desktop browsers.</p>
-
-                <h3 class="text-lg font-bold text-blue-700 mt-4 mb-2">🛠️ Technology & Dependencies</h3>
-                <p>This application is built entirely on the client side (in the user's browser) using:</p>
-                <ul class="list-disc list-inside ml-4 space-y-1 mb-4">
-                    <li>**HTML5 & Vanilla JavaScript**: Core structure and operational logic.</li>
-                    <li>**Tailwind CSS (via CDN)**: Provides modern, utility-first styling and ensures responsiveness.</li>
-                    <li>**SheetJS (js-xlsx via CDN)**: Essential library for generating and formatting the final Excel spreadsheet file.</li>
-                </ul>
-
-                <h3 class="text-lg font-bold text-blue-700 mt-4 mb-2">🚀 Key Features</h3>
-                <ul class="list-disc list-inside ml-4 space-y-1 mb-4">
-                    <li>**Mobile-Optimized Interface**: Designed for rapid item selection on a small screen with sticky headers, search, and category filters.</li>
-                    <li>**Interactive Catalog**: Allows quantity selection directly on the main grid. Selected items are visually highlighted.</li>
-                    <li>**Dynamic Cart Drawer**: A slide-up interface to review, modify, and remove items before download.</li>
-                    <li>**Required Field Validation**: Ensures the **Truck Number** is entered before the download can proceed.</li>
-                    <li>**Automatic Excel Generation**: Outputs a structured material issue sheet with item IDs, descriptions, and requested quantities, along with necessary header information (Date, Warehouses, Personnel).</li>
-                </ul>
+                <p class="mb-4">The application is a client-side tool allowing field staff to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.</p>
 
                 <h3 class="text-lg font-bold text-blue-700 mt-4 mb-2">📝 How to Use</h3>
                 <ol class="list-decimal list-inside ml-4 space-y-3 mb-4">
                     <li>
                         <strong class="text-gray-800">Enter Order Details</strong>
                         <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
-                            <li>On desktop, the input fields are visible at the top.</li>
-                            <li>On mobile, tap the **"Order Info"** button to toggle the details section open.</li>
-                            <li>Fill out the Order Date, To Warehouse/Truck (mandatory), Issued By, and Received By fields.</li>
+                            <li>Fill out the Truck Number (mandatory), Issued By, and Received By fields.</li>
                         </ul>
                     </li>
                     <li>
                         <strong class="text-gray-800">Select Materials</strong>
                         <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
-                            <li>Use the **Search** input to quickly find items by name or ID.</li>
-                            <li>Use the **Category** buttons (e.g., Equipment, Fiber/Copper) to filter the grid.</li>
-                            <li>Use the **+** and **-** buttons on the item cards to set the desired quantity. The running **Total Items** count is displayed in the footer.</li>
+                            <li>Use **Bundles** to quickly add common sets of items (e.g., Migration Bundle).</li>
+                            <li>Use the Search input to find specific items.</li>
                         </ul>
                     </li>
                     <li>
-                        <strong class="text-gray-800">Review and Download</strong>
+                        <strong class="text-gray-800">Download</strong>
                         <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
-                            <li>Tap **"View Cart"** in the footer to open the Cart Drawer for a full review of selected items.</li>
-                            <li>Click the green **"Download Order"** button (available in both the footer and the cart drawer).</li>
-                            <li>The browser will download an Excel file named: **[YYYY-MM-DD] [Truck Number] broadband order request.xlsx**.</li>
+                            <li>Tap "Download Order" to get the Excel file.</li>
                         </ul>
                     </li>
                 </ol>
-
-                <h3 class="text-lg font-bold text-red-700 mt-4 mb-2">⚠️ Maintenance Notes</h3>
-                <ul class="list-disc list-inside ml-4 space-y-1 mb-4">
-                    <li>**Hardcoded Catalog**: The entire material list is hardcoded in the &lt;script&gt; tag. To update the catalog (add/remove items or change IDs), the source HTML file must be edited and re-uploaded.</li>
-                    <li>**No Data Persistence**: Cart selections and input fields are not saved if the page is closed or refreshed. The user must complete the order and download the Excel file in a single session.</li>
-                    <li>**Unique IDs**: Note that some items use the ID "NA". While this works for the current functionality, using unique, actual part numbers is highly recommended for inventory system compatibility.</li>
-                </ul>
-                
             </div>
         </div>
     </div>
@@ -303,6 +274,19 @@
 
         catalog.forEach((item, index) => { item.uid = index; });
 
+        // --- BUNDLE CONFIGURATION ---
+        const bundleConfig = [
+            {
+                name: "Migration Bundle",
+                description: "Includes 5x U6XTG, 5x U6T, 10x GP1101",
+                items: [
+                    ["U6TXG", 5],
+                    ["U6T", 5],
+                    ["GP1101", 10]
+                ]
+            }
+        ];
+
         // --- STATE ---
         let cart = {};  
         let currentFilter = 'All';
@@ -314,7 +298,7 @@
         document.getElementById('orderDateMobile').value = today;
 
         renderGrid();
-        renderCart(); // Initial render to set footer counts
+        renderCart(); // Initial render
 
         function syncDates(val) {
             document.getElementById('orderDate').value = val;
@@ -338,18 +322,41 @@
             }
         }
 
-        // --- HELP MODAL LOGIC (NEW) ---
+        // --- HELP MODAL LOGIC ---
         function toggleHelpModal() {
             const modal = document.getElementById('helpModal');
             const body = document.body;
             
             if (modal.classList.contains('hidden')) {
                 modal.classList.remove('hidden');
-                body.classList.add('drawer-open'); // Reusing drawer-open style to prevent main scroll
+                body.classList.add('drawer-open');
             } else {
                 modal.classList.add('hidden');
                 body.classList.remove('drawer-open');
             }
+        }
+
+        // --- BUNDLE LOGIC (NEW) ---
+        function applyBundle(index) {
+            const bundle = bundleConfig[index];
+            let addedCount = 0;
+
+            bundle.items.forEach(([key, qty]) => {
+                const item = catalog.find(i => i.id === key || i.name === key);
+                if (item) {
+                    if (!cart[item.name]) cart[item.name] = 0;
+                    cart[item.name] += qty;
+                    addedCount++;
+                } else {
+                    console.warn(`Could not find item in catalog: ${key}`);
+                }
+            });
+
+            // Update both the Grid (visual cards) and the Cart Drawer logic
+            renderGrid();
+            renderCart(); 
+            
+            alert(`✅ Added ${bundle.name} items to order!`);
         }
 
         // --- CART DRAWER LOGIC ---
@@ -377,7 +384,7 @@
         function renderCart() {
             const cartList = document.getElementById('cartList');
             cartList.innerHTML = '';
-            let totalUniqueItems = 0; // Count of unique items (rows) in cart
+            let totalUniqueItems = 0; 
             
             const cartCatalog = catalog
                 .filter(item => cart[item.name] > 0)
@@ -422,15 +429,44 @@
                 document.body.classList.remove('drawer-open');
             }
         }
-        // --- END CART LOGIC ---
 
-
-        // --- UI (EXISTING FUNCTIONS MODIFIED TO CALL renderCart) ---
+        // --- UI (GRID) ---
         function renderGrid() {
             const container = document.getElementById('gridContainer');
             container.innerHTML = '';
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            // 1. HANDLE BUNDLE VIEW
+            if (currentFilter === 'Bundles') {
+                bundleConfig.forEach((bundle, index) => {
+                    const card = document.createElement('div');
+                    card.className = "bg-purple-50 p-4 rounded-xl shadow-md border-2 border-purple-200 hover:border-purple-400 transition cursor-pointer group";
+                    card.onclick = () => applyBundle(index);
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-black text-purple-900 text-base">${bundle.name}</h3>
+                            <span class="text-xs bg-purple-200 text-purple-800 px-2 py-1 rounded-full font-bold whitespace-nowrap">📦 Add Kit</span>
+                        </div>
+                        <p class="text-xs text-purple-600 mb-3 line-clamp-2">${bundle.description}</p>
+                        <div class="space-y-1">
+                            ${bundle.items.map(([item, qty]) => 
+                                `<div class="text-[10px] text-gray-600 flex justify-between border-b border-purple-100 pb-1">
+                                    <span>${item}</span>
+                                    <span class="font-mono font-bold text-sm text-purple-700">x${qty}</span>
+                                </div>`
+                            ).join('')}
+                        </div>
+                        <div class="mt-4 text-center text-xs font-bold text-purple-600 group-hover:text-purple-800 transition">
+                            Tap to append all items
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                return; // Stop here, don't render normal items
+            }
 
+            // 2. HANDLE NORMAL ITEM VIEW
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             let displayList = [...catalog].sort((a, b) => (a.isPopular === b.isPopular) ? 0 : a.isPopular ? -1 : 1);
 
             displayList.forEach(item => {
@@ -473,13 +509,11 @@
             
             if (cart[item.name] < 0) cart[item.name] = 0;
             
-            // Clean up zero-quantity entries
             if (cart[item.name] === 0) {
                 delete cart[item.name];
             }
             
             renderGrid();
-            // Call renderCart to update counts and drawer contents/state
             renderCart(); 
         }
 
@@ -494,14 +528,23 @@
             currentFilter = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 const btnText = btn.innerText;
-                // Simplified comparison for activation
                 const targetCat = (cat === 'Plates/Jacks') ? 'Wall Plates' : cat;
                 
-                if(btnText === targetCat || (cat === 'All' && btnText === 'All')) {
+                let isActive = false;
+                if(btnText === targetCat) isActive = true;
+                if(cat === 'All' && btnText === 'All') isActive = true;
+                if(cat === 'Bundles' && btnText.includes('Bundles')) isActive = true;
+
+                if(isActive) {
                     btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
                     btn.classList.remove('bg-white', 'border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
+                    if(cat === 'Bundles') {
+                        // Special purple styling for Bundles button
+                        btn.classList.remove('bg-blue-600');
+                        btn.classList.add('bg-purple-600', 'text-white');
+                    }
                 } else {
-                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'bg-purple-600');
                     btn.classList.add('bg-white', 'border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
                 }
             });
@@ -512,7 +555,7 @@
 
         function generateExcel() {
             const drawer = document.getElementById('cartDrawer');
-            if(drawer.classList.contains('open')) toggleCartDrawer(); // Close drawer on download
+            if(drawer.classList.contains('open')) toggleCartDrawer(); 
 
             // 1. Check if cart is empty
             const cartItemsCount = Object.keys(cart).filter(key => cart[key] > 0).length;
@@ -525,7 +568,7 @@
             const issuedBy = document.getElementById('issuedBy').value.trim();
             const toWh = document.getElementById('toWarehouse').value.trim();
             
-            // 2. Check if Truck Number is provided (NEW REQUIREMENT)
+            // 2. Check if Truck Number is provided
             if (!toWh) {
                  alert("Please enter the Truck Number in the 'To Warehouse/Truck' field before downloading.");
                  if(!isDetailsOpen) toggleDetails();
@@ -547,7 +590,6 @@
             const rawDate = document.getElementById('orderDate').value;
             const dateStr = new Date(rawDate + "T00:00:00").toLocaleDateString();  
 
-            // Split ALL catalog items into two columns for the Excel sheet layout
             const midpoint = Math.ceil(catalog.length / 2);
             const leftColItems = catalog.slice(0, midpoint);
             const rightColItems = catalog.slice(midpoint);
@@ -567,7 +609,6 @@
                 const leftItem = leftColItems[i] || { id: "", name: "" };
                 const rightItem = rightColItems[i] || { id: "", name: "" };
 
-                // Use the quantity from the cart state, only if > 0, otherwise empty string
                 const leftQty = cart[leftItem.name] > 0 ? cart[leftItem.name] : "";
                 const rightQty = cart[rightItem.name] > 0 ? cart[rightItem.name] : "";
 
@@ -581,7 +622,6 @@
             const ws = XLSX.utils.aoa_to_sheet(ws_data);
             ws['!cols'] = [ {wch: 10}, {wch: 35}, {wch: 8}, {wch: 5}, {wch: 10}, {wch: 35}, {wch: 8} ];
 
-            // Apply merge and styling for the title
             ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }];
             const titleCell = ws['A1'];
             if (titleCell) {
@@ -590,7 +630,6 @@
 
             XLSX.utils.book_append_sheet(wb, ws, "Request");
             
-            // 4. Set the new file name format (NEW FILE NAMING)
             const fileName = `${rawDate} ${toWh} broadband order request.xlsx`;
             XLSX.writeFile(wb, fileName);
         }
