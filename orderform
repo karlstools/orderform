@@ -44,7 +44,6 @@
                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">From Warehouse</label>
                         <select class="w-full p-2 rounded border border-gray-300 text-sm bg-white" id="fromWarehouse">
                             <option value="1">Warehouse 1</option>
-                          
                         </select>
                     </div>
                     <div>
@@ -75,6 +74,7 @@
                 <button onclick="filterCategory('Fiber')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber</button>
                 <button onclick="filterCategory('Plates/Jacks')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Wall Plates</button>
                 <button onclick="filterCategory('Hardware')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Hardware</button>
+                <button onclick="filterCategory('Bundles')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">📦 Bundles</button>
             </div>
         </div>
     </div>
@@ -164,6 +164,20 @@
 
         catalog.forEach((item, index) => { item.uid = index; });
 
+        // --- BUNDLE CONFIGURATION (EASY FORMAT) ---
+        const bundleConfig = [
+            {
+                name: "Migration Bundle",
+                description: "Includes 5x U6XTG, 5x U6T, 10x GP1101",
+                // Format: [ "Exact Name OR ID from Catalog", Quantity ]
+                items: [
+                    ["U6XTG", 5],
+                    ["U6T", 5],
+                    ["GP1101", 10]
+                ]
+            }
+        ];
+
         // --- STATE ---
         let cart = {}; 
         let currentFilter = 'All';
@@ -171,6 +185,38 @@
 
         document.getElementById('currentDate').innerText = new Date().toLocaleDateString();
         renderGrid();
+
+        // --- BUNDLE LOGIC (NEW) ---
+        function applyBundle(index) {
+            const bundle = bundleConfig[index];
+            let addedCount = 0;
+
+            bundle.items.forEach(([key, qty]) => {
+                // Find item by ID first, then by exact Name
+                const item = catalog.find(i => i.id === key || i.name === key);
+                
+                if (item) {
+                    if (!cart[item.name]) cart[item.name] = 0;
+                    cart[item.name] += qty; // Append/Stack logic (Option B)
+                    addedCount++;
+                } else {
+                    console.warn(`Could not find item in catalog: ${key}`);
+                }
+            });
+
+            // Refresh view and update totals
+            updateTotalCount();
+            renderGrid();
+            
+            // Simple feedback
+            alert(`✅ Added ${bundle.name} items to order!`);
+        }
+
+        function updateTotalCount() {
+            let count = 0;
+            Object.values(cart).forEach(val => { if(val > 0) count++ });
+            document.getElementById('totalCount').innerText = count;
+        }
 
         // --- TOGGLE MOBILE DETAILS ---
         function toggleDetails() {
@@ -189,12 +235,43 @@
             }
         }
 
-        // --- UI ---
+        // --- UI (UPDATED TO HANDLE BUNDLES) ---
         function renderGrid() {
             const container = document.getElementById('gridContainer');
             container.innerHTML = '';
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            // 1. HANDLE BUNDLE VIEW
+            if (currentFilter === 'Bundles') {
+                bundleConfig.forEach((bundle, index) => {
+                    const card = document.createElement('div');
+                    card.className = "bg-purple-50 p-4 rounded-xl shadow-md border-2 border-purple-200 hover:border-purple-400 transition cursor-pointer group";
+                    card.onclick = () => applyBundle(index);
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-black text-purple-900 text-base">${bundle.name}</h3>
+                            <span class="text-xs bg-purple-200 text-purple-800 px-2 py-1 rounded-full font-bold whitespace-nowrap">📦 Add Kit</span>
+                        </div>
+                        <p class="text-xs text-purple-600 mb-3 line-clamp-2">${bundle.description}</p>
+                        <div class="space-y-1">
+                            ${bundle.items.map(([item, qty]) => 
+                                `<div class="text-[10px] text-gray-600 flex justify-between border-b border-purple-100 pb-1">
+                                    <span>${item}</span>
+                                    <span class="font-mono font-bold text-sm text-purple-700">x${qty}</span>
+                                </div>`
+                            ).join('')}
+                        </div>
+                        <div class="mt-4 text-center text-xs font-bold text-purple-600 group-hover:text-purple-800 transition">
+                            Tap to append all items
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                return; // Stop here, don't render normal items
+            }
 
+            // 2. HANDLE NORMAL ITEM VIEW (Existing Logic)
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             let displayList = [...catalog].sort((a, b) => (a.isPopular === b.isPopular) ? 0 : a.isPopular ? -1 : 1);
 
             displayList.forEach(item => {
@@ -235,10 +312,8 @@
             cart[item.name] += change;
             if (cart[item.name] < 0) cart[item.name] = 0;
             
+            updateTotalCount();
             renderGrid();
-            let count = 0;
-            Object.values(cart).forEach(val => { if(val > 0) count++ });
-            document.getElementById('totalCount').innerText = count;
         }
 
         function getIconForCategory(cat) {
@@ -251,7 +326,15 @@
         function filterCategory(cat) {
             currentFilter = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                if(btn.innerText.includes(cat) || (cat === 'Plates/Jacks' && btn.innerText.includes('Wall'))) {
+                let btnText = btn.innerText;
+                let isActive = false;
+
+                if(cat === 'Plates/Jacks' && btnText.includes('Wall')) isActive = true;
+                else if(cat === 'Bundles' && btnText.includes('Bundles')) isActive = true;
+                else if(btnText === cat) isActive = true;
+                else if(cat === 'All' && btnText === 'All') isActive = true;
+
+                if(isActive) {
                     btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
                     btn.classList.remove('bg-white', 'border-gray-200', 'text-gray-600', 'hover:bg-gray-50');
                 } else {
