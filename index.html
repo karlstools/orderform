@@ -284,7 +284,20 @@
                     ["U6T", 5],
                     ["GP1101", 10]
                 ]
-            }
+            }, // <--- IMPORTANT: Don't forget this comma!
+    
+    // START OF NEW BUNDLE
+         {
+                name: "Fiber Restock",
+                description: "4 of each 7ft, 25ft, 50ft, 75 ft",
+                items: [
+                    ["7' FIBER JUMPER", 4],       // You can use the specific Item Name...
+                    ["25' FIBER JUMPER", 4],
+                    ["50' FIBER JUMPER", 4],
+                    ["75' FIBER JUMPER", 4]
+                    // ...OR you can use the Item ID (safer)
+        ]
+    }
         ];
 
         // --- STATE ---
