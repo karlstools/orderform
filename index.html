@@ -647,6 +647,19 @@
             const fileName = `${rawDate} ${toWh} broadband order request.xlsx`;
             XLSX.writeFile(wb, fileName);
         }
+
+        // --- PREVENT ACCIDENTAL NAVIGATION ---
+        window.addEventListener('beforeunload', function (e) {
+            // Check if there are any items in the cart
+            const hasItems = Object.keys(cart).length > 0;
+
+            if (hasItems) {
+                // Cancel the event
+                e.preventDefault(); 
+                // Chrome requires returnValue to be set
+                e.returnValue = ''; 
+            }
+        });
     </script>
 </body>
 </html>
