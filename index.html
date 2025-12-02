@@ -137,31 +137,67 @@
                 </button>
             </div>
             <div class="p-4 overflow-y-auto text-sm readme-content flex-grow">
-                <p class="mb-4">This document provides an overview and instructions for the **Broadband Material Request Form**, a single-page web application designed for quick material ordering and generation of a formal issue sheet.</p>
+               <p class="mb-4">This document provides an overview and instructions for the <strong>Broadband Material Request Form</strong>, a single-page web application designed for quick material ordering and generation of a formal issue sheet.</p>
 
-                <h3 class="text-lg font-bold text-blue-700 mt-4 mb-2">💡 Overview</h3>
-                <p class="mb-4">The application is a client-side tool allowing field staff to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.</p>
+<h3 class="text-lg font-bold text-blue-700 mt-6 mb-2">💡 Overview</h3>
+<p class="mb-4">The application is a client-side tool allowing field staff to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.</p>
+<p class="mb-4">It is built as a highly responsive, app-like experience for use on mobile devices and desktop browsers.</p>
 
-                <h3 class="text-lg font-bold text-blue-700 mt-4 mb-2">📝 How to Use</h3>
-                <ol class="list-decimal list-inside ml-4 space-y-3 mb-4">
-                    <li>
-                        <strong class="text-gray-800">Enter Order Details</strong>
-                        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
-                            <li>Fill out the Truck Number (mandatory), Issued By, and Received By fields.</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <strong class="text-gray-800">Select Materials</strong>
-                        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
-                            <li>Use **Bundles** to quickly add common sets of items (e.g., Migration Bundle).</li>
-                            <li>Use the Search input to find specific items.</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <strong class="text-gray-800">Download</strong>
-                        <ul class="list-disc list-inside ml-4 mt-1 space-y-1">
-                            <li>Tap "Download Order" to get the Excel file.</li>
-                        </ul>
+<h3 class="text-lg font-bold text-blue-700 mt-6 mb-2">🛠️ Technology & Dependencies</h3>
+<p class="mb-2">This application is built entirely on the client side (in the user's browser) using:</p>
+<ul class="list-disc list-inside ml-4 space-y-1 mb-4">
+    <li><strong>HTML5 & Vanilla JavaScript:</strong> Core structure and operational logic.</li>
+    <li><strong>External JSON Data:</strong> Inventory and Bundle configurations are loaded dynamically from <code class="bg-gray-100 text-pink-600 px-1 rounded text-sm">inventory.json</code> and <code class="bg-gray-100 text-pink-600 px-1 rounded text-sm">bundles.json</code>.</li>
+    <li><strong>Tailwind CSS (via CDN):</strong> Provides modern, utility-first styling and ensures responsiveness.</li>
+    <li><strong>SheetJS (js-xlsx via CDN):</strong> Essential library for generating and formatting the final Excel spreadsheet file.</li>
+</ul>
+
+<h3 class="text-lg font-bold text-blue-700 mt-6 mb-2">🚀 Key Features</h3>
+<ul class="list-disc list-inside ml-4 space-y-1 mb-4">
+    <li><strong>Smart Bundles (Kits):</strong> One-tap addition of pre-configured item sets (e.g., "Migration Bundle", "Fiber Restock") to speed up common ordering tasks.</li>
+    <li><strong>Mobile-Optimized Interface:</strong> Designed for rapid item selection on a small screen with sticky headers, search, and category filters.</li>
+    <li><strong>Interactive Catalog:</strong> Allows quantity selection directly on the main grid. Selected items are visually highlighted.</li>
+    <li><strong>Dynamic Cart Drawer:</strong> A slide-up interface to review, modify, and remove items before download.</li>
+    <li><strong>Required Field Validation:</strong> Ensures the Truck Number is entered before the download can proceed.</li>
+    <li><strong>Automatic Excel Generation:</strong> Outputs a structured material issue sheet with item IDs, descriptions, and requested quantities, along with necessary header information.</li>
+</ul>
+
+<h3 class="text-lg font-bold text-blue-700 mt-6 mb-2">📝 How to Use</h3>
+<ol class="list-decimal list-inside ml-4 space-y-4 mb-4">
+    <li>
+        <strong class="text-gray-800">Enter Order Details</strong>
+        <ul class="list-disc list-inside ml-6 mt-1 space-y-1 text-gray-700">
+            <li>On desktop, the input fields are visible at the top.</li>
+            <li>On mobile, tap the "Order Info" button to toggle the details section open.</li>
+            <li>Fill out the Order Date, To Warehouse/Truck (mandatory), Issued By, and Received By fields.</li>
+        </ul>
+    </li>
+    <li>
+        <strong class="text-gray-800">Select Materials</strong>
+        <ul class="list-disc list-inside ml-6 mt-1 space-y-1 text-gray-700">
+            <li><strong>Using Bundles:</strong> Tap the <strong>📦 Bundles</strong> category filter to view available kits. Tapping a Bundle card will instantly add all specific items and quantities associated with that kit to your cart.</li>
+            <li><strong>Individual Items:</strong> Use the other Category buttons (Equipment, Fiber/Copper, etc.) or the Search input to find specific items.</li>
+            <li>Use the <strong>+</strong> and <strong>-</strong> buttons on the item cards to adjust quantities. The running Total Items count is displayed in the footer.</li>
+        </ul>
+    </li>
+    <li>
+        <strong class="text-gray-800">Review and Download</strong>
+        <ul class="list-disc list-inside ml-6 mt-1 space-y-1 text-gray-700">
+            <li>Tap "View Cart" in the footer to open the Cart Drawer for a full review of selected items.</li>
+            <li>Click the green "Download Order" button (available in both the footer and the cart drawer).</li>
+            <li>The browser will download an Excel file named: <code class="bg-gray-100 text-pink-600 px-1 rounded text-sm">[YYYY-MM-DD] [Truck Number] broadband order request.xlsx</code>.</li>
+        </ul>
+    </li>
+</ol>
+
+<h3 class="text-lg font-bold text-blue-700 mt-6 mb-2">⚠️ Maintenance Notes</h3>
+<ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+    <li><strong>Inventory Management:</strong> The material list is now loaded from <code class="bg-gray-100 text-pink-600 px-1 rounded text-sm">inventory.json</code>. To add, remove, or edit items, simply update this file directly.</li>
+    <li><strong>Bundle Configuration:</strong> Bundles are defined in <code class="bg-gray-100 text-pink-600 px-1 rounded text-sm">bundles.json</code>. You can modify the items or quantities inside a bundle by editing this file.</li>
+    <li><strong>Local Testing:</strong> Because the app now fetches data from external files, <strong>it will not work if you simply double-click index.html</strong> on your computer (due to CORS security). You must run it via a local server (like VS Code Live Server) or view it hosted on GitHub Pages.</li>
+    <li><strong>No Data Persistence:</strong> Cart selections and input fields are not saved if the page is closed or refreshed. The user must complete the order and download the Excel file in a single session.</li>
+    <li><strong>Unique IDs:</strong> Note that some items use the ID "NA". While this works for the current functionality, using unique, actual part numbers is highly recommended for inventory system compatibility.</li>
+</ul>
                     </li>
                 </ol>
             </div>
