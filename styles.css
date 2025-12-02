@@ -133,7 +133,7 @@ body.drawer-open {
 .btn-highlight {
     border: 2px solid var(--cde-navy) !important;
     color: var(--cde-navy) !important;
-    background-color: #f0f9ff !important;
+    background-color: white !important;
     /* Light navy tint */
     animation: pulse-navy 2s infinite;
 }
