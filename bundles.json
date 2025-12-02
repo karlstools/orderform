@@ -23,9 +23,9 @@
     "description": "Includes 10 Tii Plates, 1 Bag of Cut-in Brackets, 1 Bag of Inserts/Keystones, Bag of RJ45s",
     "items": [ 
       ["TII BOXES-WHITE", 10],
-      ["RJ45", 1],
       ["DRYWALL BRACKET", 1],
-      ["CAT5e KEYSTONE, WHITE", 4]
+      ["CAT5e KEYSTONE, WHITE", 4],
+      ["RJ45", 1],
     ]
   }
 ]
