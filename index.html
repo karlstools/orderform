@@ -15,27 +15,27 @@
     <div class="bg-white shadow-sm sticky top-0 z-20 border-b border-gray-200">
     
     <div class="max-w-7xl mx-auto px-3 py-2 md:py-4 flex justify-between items-center bg-white z-30 relative">
-        <h1 class="text-lg md:text-2xl font-black text-[#002855] flex items-center gap-2 tracking-tight">
-            <svg class="w-6 h-6 text-[#E31837]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        <h1 class="text-lg md:text-2xl font-black cde-text-navy flex items-center gap-2 tracking-tight">
+            <svg class="w-6 h-6 cde-text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             MATERIAL REQUEST
         </h1>
         
         <div class="flex items-center gap-3">
-             <button onclick="toggleHelpModal()" class="text-gray-400 hover:text-[#E31837] p-2 rounded-full hover:bg-gray-100 transition-colors">
+             <button onclick="toggleHelpModal()" class="text-gray-400 hover-text-red p-2 rounded-full hover:bg-gray-100 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
             </button>
             
-            <button onclick="toggleDetails()" id="detailsBtn" class="md:hidden text-xs font-bold text-[#002855] bg-slate-100 px-3 py-2 rounded-full flex items-center gap-1 border border-slate-200">
+            <button onclick="toggleDetails()" id="detailsBtn" class="md:hidden text-xs font-bold cde-text-navy bg-slate-100 px-3 py-2 rounded-full flex items-center gap-1 border border-slate-200">
                 <span>Order Info</span>
-                <svg id="chevron" class="w-4 h-4 transition-transform text-[#E31837]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <svg id="chevron" class="w-4 h-4 transition-transform cde-text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
         </div>
         
         <div class="hidden md:flex items-center gap-2 text-sm text-gray-500 font-medium">
             <label for="orderDate">Date:</label>
-            <input type="date" id="orderDate" class="bg-gray-50 border border-gray-300 rounded px-2 py-1 text-[#002855] font-bold focus:outline-none focus:ring-2 focus:ring-[#E31837]">
+            <input type="date" id="orderDate" class="bg-gray-50 border border-gray-300 rounded px-2 py-1 cde-text-navy font-bold focus:outline-none focus:ring-2 focus-ring-red">
         </div>
     </div>
     
@@ -46,26 +46,26 @@
                     
                     <div class="md:hidden col-span-2">
                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Order Date</label>
-                        <input type="date" id="orderDateMobile" onchange="syncDates(this.value)" class="w-full p-2 rounded border border-gray-300 text-sm bg-white focus:border-[#E31837] focus:ring-[#E31837] focus:outline-none">
+                        <input type="date" id="orderDateMobile" onchange="syncDates(this.value)" class="w-full p-2 rounded border border-gray-300 text-sm bg-white focus:outline-none focus-border-red focus:ring-2 focus-ring-red">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">From Warehouse</label>
-                        <select class="w-full p-2 rounded border border-gray-300 text-sm bg-white focus:border-[#E31837] focus:ring-[#E31837] focus:outline-none" id="fromWarehouse">
+                        <select class="w-full p-2 rounded border border-gray-300 text-sm bg-white focus:outline-none focus-border-red focus:ring-2 focus-ring-red" id="fromWarehouse">
                             <option value="WAREHOUSE 1">Warehouse 1</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">To Warehouse/Truck</label>
-                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm focus:border-[#E31837] focus:ring-[#E31837] focus:outline-none" placeholder="Truck Number" id="toWarehouse">
+                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm focus:outline-none focus-border-red focus:ring-2 focus-ring-red" placeholder="Truck Number" id="toWarehouse">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Issued By</label>
-                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm focus:border-[#E31837] focus:ring-[#E31837] focus:outline-none" id="issuedBy">
+                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm focus:outline-none focus-border-red focus:ring-2 focus-ring-red" id="issuedBy">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Received By</label>
-                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm focus:border-[#E31837] focus:ring-[#E31837] focus:outline-none" id="receivedBy">
+                        <input type="text" class="w-full p-2 rounded border border-gray-300 text-sm focus:outline-none focus-border-red focus:ring-2 focus-ring-red" id="receivedBy">
                     </div>
                 </div>
             </div>
@@ -73,12 +73,12 @@
 
         <div class="max-w-7xl mx-auto px-3 pb-3 pt-1 bg-white">
             <div class="relative mb-2">
-                <input type="text" id="searchInput" placeholder="Search equipment..." class="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#E31837] text-sm">
+                <input type="text" id="searchInput" placeholder="Search equipment..." class="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus-ring-red text-sm">
                 <svg class="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
 
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                <button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-lg bg-[#E31837] text-white text-xs font-bold shadow-sm cat-btn active-cat whitespace-nowrap flex-shrink-0">All</button>
+                <button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-lg cde-bg-red text-white text-xs font-bold shadow-sm cat-btn active-cat whitespace-nowrap flex-shrink-0">All</button>
                 <button onclick="filterCategory('Bundles')" class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-200 cat-btn whitespace-nowrap flex-shrink-0">📦 Bundles</button>
                 <button onclick="filterCategory('Equipment')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Equipment</button>
                 <button onclick="filterCategory('Fiber/Copper')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber/Copper</button>
@@ -97,10 +97,10 @@
         </div>
     </div>
 
-    <div id="helpModal" class="fixed inset-0 z-50 bg-[#002855] bg-opacity-80 flex items-center justify-center p-4 hidden">
+    <div id="helpModal" class="fixed inset-0 z-50 cde-bg-navy bg-opacity-80 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-full overflow-hidden flex flex-col">
             <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 class="text-xl font-bold text-[#002855]">Application Help (README)</h2>
+                <h2 class="text-xl font-bold cde-text-navy">Application Help (README)</h2>
                 <button onclick="toggleHelpModal()" class="text-gray-500 hover:text-gray-800 p-1 rounded-full bg-gray-100 hover:bg-gray-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
@@ -108,20 +108,20 @@
             <div class="p-4 overflow-y-auto text-sm readme-content flex-grow text-gray-700">
                <p class="mb-4">This document provides an overview and instructions for the <strong>Broadband Material Request Form</strong>, a single-page web application designed for quick material ordering and generation of a formal issue sheet.</p>
 
-                <h3 class="text-lg font-bold text-[#002855] mt-6 mb-2">💡 Overview</h3>
+                <h3 class="text-lg font-bold cde-text-navy mt-6 mb-2">💡 Overview</h3>
                 <p class="mb-4">The application is a client-side tool allowing field staff to select required materials from a categorized catalog, specify order details (like truck number and personnel), and instantly generate a standardized Excel file (.xlsx) suitable for formal documentation and inventory tracking.</p>
                 <p class="mb-4">It is built as a highly responsive, app-like experience for use on mobile devices and desktop browsers.</p>
 
-                <h3 class="text-lg font-bold text-[#002855] mt-6 mb-2">🛠️ Technology & Dependencies</h3>
+                <h3 class="text-lg font-bold cde-text-navy mt-6 mb-2">🛠️ Technology & Dependencies</h3>
                 <p class="mb-2">This application is built entirely on the client side (in the user's browser) using:</p>
                 <ul class="list-disc list-inside ml-4 space-y-1 mb-4">
                     <li><strong>HTML5 & Vanilla JavaScript:</strong> Core structure and operational logic.</li>
-                    <li><strong>External JSON Data:</strong> Inventory and Bundle configurations are loaded dynamically from <code class="bg-gray-100 text-[#E31837] px-1 rounded text-sm">inventory.json</code> and <code class="bg-gray-100 text-[#E31837] px-1 rounded text-sm">bundles.json</code>.</li>
+                    <li><strong>External JSON Data:</strong> Inventory and Bundle configurations are loaded dynamically from <code class="bg-gray-100 cde-text-red px-1 rounded text-sm">inventory.json</code> and <code class="bg-gray-100 cde-text-red px-1 rounded text-sm">bundles.json</code>.</li>
                     <li><strong>Tailwind CSS (via CDN):</strong> Provides modern, utility-first styling and ensures responsiveness.</li>
                     <li><strong>SheetJS (js-xlsx via CDN):</strong> Essential library for generating and formatting the final Excel spreadsheet file.</li>
                 </ul>
 
-                <h3 class="text-lg font-bold text-[#002855] mt-6 mb-2">🚀 Key Features</h3>
+                <h3 class="text-lg font-bold cde-text-navy mt-6 mb-2">🚀 Key Features</h3>
                 <ul class="list-disc list-inside ml-4 space-y-1 mb-4">
                     <li><strong>Smart Bundles (Kits):</strong> One-tap addition of pre-configured item sets (e.g., "Migration Bundle", "Fiber Restock") to speed up common ordering tasks.</li>
                     <li><strong>Mobile-Optimized Interface:</strong> Designed for rapid item selection on a small screen with sticky headers, search, and category filters.</li>
@@ -131,10 +131,10 @@
                     <li><strong>Automatic Excel Generation:</strong> Outputs a structured material issue sheet with item IDs, descriptions, and requested quantities, along with necessary header information.</li>
                 </ul>
 
-                <h3 class="text-lg font-bold text-[#002855] mt-6 mb-2">📝 How to Use</h3>
+                <h3 class="text-lg font-bold cde-text-navy mt-6 mb-2">📝 How to Use</h3>
                 <ol class="list-decimal list-inside ml-4 space-y-4 mb-4">
                     <li>
-                        <strong class="text-[#E31837]">Enter Order Details</strong>
+                        <strong class="cde-text-red">Enter Order Details</strong>
                         <ul class="list-disc list-inside ml-6 mt-1 space-y-1 text-gray-600">
                             <li>On desktop, the input fields are visible at the top.</li>
                             <li>On mobile, tap the "Order Info" button to toggle the details section open.</li>
@@ -142,7 +142,7 @@
                         </ul>
                     </li>
                     <li>
-                        <strong class="text-[#E31837]">Select Materials</strong>
+                        <strong class="cde-text-red">Select Materials</strong>
                         <ul class="list-disc list-inside ml-6 mt-1 space-y-1 text-gray-600">
                             <li><strong>Using Bundles:</strong> Tap the <strong>📦 Bundles</strong> category filter to view available kits. Tapping a Bundle card will instantly add all specific items and quantities associated with that kit to your cart.</li>
                             <li><strong>Individual Items:</strong> Use the other Category buttons (Equipment, Fiber/Copper, etc.) or the Search input to find specific items.</li>
@@ -150,19 +150,19 @@
                         </ul>
                     </li>
                     <li>
-                        <strong class="text-[#E31837]">Review and Download</strong>
+                        <strong class="cde-text-red">Review and Download</strong>
                         <ul class="list-disc list-inside ml-6 mt-1 space-y-1 text-gray-600">
                             <li>Tap "View Cart" in the footer to open the Cart Drawer for a full review of selected items.</li>
-                            <li>Click the Navy <span class="text-[#002855] font-bold">"Download Order"</span> button (available in both the footer and the cart drawer).</li>
-                            <li>The browser will download an Excel file named: <code class="bg-gray-100 text-[#E31837] px-1 rounded text-sm">[YYYY-MM-DD] [Truck Number] broadband order request.xlsx</code>.</li>
+                            <li>Click the Navy <span class="cde-text-navy font-bold">"Download Order"</span> button (available in both the footer and the cart drawer).</li>
+                            <li>The browser will download an Excel file named: <code class="bg-gray-100 cde-text-red px-1 rounded text-sm">[YYYY-MM-DD] [Truck Number] broadband order request.xlsx</code>.</li>
                         </ul>
                     </li>
                 </ol>
 
-                <h3 class="text-lg font-bold text-[#002855] mt-6 mb-2">⚠️ Maintenance Notes</h3>
+                <h3 class="text-lg font-bold cde-text-navy mt-6 mb-2">⚠️ Maintenance Notes</h3>
                 <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
-                    <li><strong>Inventory Management:</strong> The material list is now loaded from <code class="bg-gray-100 text-[#E31837] px-1 rounded text-sm">inventory.json</code>. To add, remove, or edit items, simply update this file directly.</li>
-                    <li><strong>Bundle Configuration:</strong> Bundles are defined in <code class="bg-gray-100 text-[#E31837] px-1 rounded text-sm">bundles.json</code>. You can modify the items or quantities inside a bundle by editing this file.</li>
+                    <li><strong>Inventory Management:</strong> The material list is now loaded from <code class="bg-gray-100 cde-text-red px-1 rounded text-sm">inventory.json</code>. To add, remove, or edit items, simply update this file directly.</li>
+                    <li><strong>Bundle Configuration:</strong> Bundles are defined in <code class="bg-gray-100 cde-text-red px-1 rounded text-sm">bundles.json</code>. You can modify the items or quantities inside a bundle by editing this file.</li>
                     <li><strong>Local Testing:</strong> Because the app now fetches data from external files, <strong>it will not work if you simply double-click index.html</strong> on your computer (due to CORS security). You must run it via a local server (like VS Code Live Server) or view it hosted on GitHub Pages.</li>
                     <li><strong>No Data Persistence:</strong> Cart selections and input fields are not saved if the page is closed or refreshed. The user must complete the order and download the Excel file in a single session.</li>
                     <li><strong>Unique IDs:</strong> Note that some items use the ID "NA". While this works for the current functionality, using unique, actual part numbers is highly recommended for inventory system compatibility.</li>
@@ -173,10 +173,10 @@
     
     <div id="cartDrawer" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-2xl z-40 max-h-[80vh] flex flex-col">
         <div class="p-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white">
-            <h2 class="text-xl font-bold text-[#002855] flex items-center gap-2">
-                <svg class="w-6 h-6 text-[#E31837]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <h2 class="text-xl font-bold cde-text-navy flex items-center gap-2">
+                <svg class="w-6 h-6 cde-text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 Your Material Cart
-                <span id="cartTotalItems" class="text-sm bg-[#E31837] text-white rounded-full px-2 py-0.5 ml-1">0</span>
+                <span id="cartTotalItems" class="text-sm cde-bg-red text-white rounded-full px-2 py-0.5 ml-1">0</span>
             </h2>
             <button onclick="toggleCartDrawer()" class="text-gray-500 hover:text-gray-800 p-1 rounded-full bg-gray-100 hover:bg-gray-200">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -188,7 +188,7 @@
         </div>
         
         <div class="p-4 border-t border-gray-200">
-            <button onclick="generateExcel()" class="w-full bg-[#002855] hover:bg-[#001f40] active:bg-black text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
+            <button onclick="generateExcel()" class="w-full cde-bg-navy hover-bg-navy active:bg-black text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
                 <span>Download Order with <span id="cartDownloadCount">0</span> Items</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             </button>
@@ -198,17 +198,17 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center gap-4">
             <div class="flex flex-col">
                 <div class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total Items</div>
-                <div class="text-xl font-black text-[#002855] leading-none"><span id="totalCount">0</span></div>
+                <div class="text-xl font-black cde-text-navy leading-none"><span id="totalCount">0</span></div>
             </div>
             
-            <button onclick="toggleCartDrawer()" class="bg-gray-100 hover:bg-gray-200 text-[#002855] border border-gray-200 px-4 py-3 rounded-xl font-bold shadow-sm flex items-center justify-center gap-2 transition-transform active:scale-95 text-sm flex-1 md:flex-none">
+            <button onclick="toggleCartDrawer()" class="bg-gray-100 hover:bg-gray-200 cde-text-navy border border-gray-200 px-4 py-3 rounded-xl font-bold shadow-sm flex items-center justify-center gap-2 transition-transform active:scale-95 text-sm flex-1 md:flex-none">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span class="hidden md:inline">View</span> Cart
             </button>
 
-            <button onclick="generateExcel()" class="bg-[#002855] hover:bg-[#001f40] active:bg-black text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95 flex-1">
+            <button onclick="generateExcel()" class="cde-bg-navy hover-bg-navy active:bg-black text-white px-4 py-3 rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95 flex-1">
                 <span>Download Order</span>
-                <svg class="w-5 h-5 text-[#E31837]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                <svg class="w-5 h-5 cde-text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             </button>
         </div>
     </div>
