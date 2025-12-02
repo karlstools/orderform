@@ -13,6 +13,7 @@ It is built as a highly responsive, app-like experience for use on mobile device
 This application is built entirely on the client side (in the user's browser) using:
 
 * **HTML5 & Vanilla JavaScript:** Core structure and operational logic.
+* **External JSON Data:** Inventory and Bundle configurations are loaded dynamically from `inventory.json` and `bundles.json`.
 * **Tailwind CSS (via CDN):** Provides modern, utility-first styling and ensures responsiveness.
 * **SheetJS (js-xlsx via CDN):** Essential library for generating and formatting the final Excel spreadsheet file.
 
@@ -44,7 +45,8 @@ This application is built entirely on the client side (in the user's browser) us
 
 ## ⚠️ Maintenance Notes
 
-* **Hardcoded Catalog:** The material list is hardcoded in the `catalog` array in the script. To update items (add/remove or change IDs), the source HTML file must be edited.
-* **Bundle Configuration:** Bundles are defined in the `bundleConfig` array. To change what items or quantities are inside a bundle, edit this array in the source code.
+* **Inventory Management:** The material list is now loaded from `inventory.json`. To add, remove, or edit items, simply update this file directly.
+* **Bundle Configuration:** Bundles are defined in `bundles.json`. You can modify the items or quantities inside a bundle by editing this file.
+* **Local Testing:** Because the app now fetches data from external files, **it will not work if you simply double-click `index.html`** on your computer (due to CORS security). You must run it via a local server (like VS Code Live Server) or view it hosted on GitHub Pages.
 * **No Data Persistence:** Cart selections and input fields are not saved if the page is closed or refreshed. The user must complete the order and download the Excel file in a single session.
 * **Unique IDs:** Note that some items use the ID "NA". While this works for the current functionality, using unique, actual part numbers is highly recommended for inventory system compatibility.
