@@ -1,32 +1,57 @@
 /* styles.css */
 
+:root {
+    /* --- CDE LIGHTBAND THEME VARIABLES --- */
+    --cde-navy: #002855;
+    --cde-red: #E31837;
+    --cde-red-light: #fff1f2; /* Light pink for backgrounds */
+}
+
 body { 
     font-family: 'Inter', system-ui, -apple-system, sans-serif; 
     -webkit-tap-highlight-color: transparent; 
 }
 
-/* Hide Scrollbar Utility */
-.no-scrollbar::-webkit-scrollbar { 
-    display: none; 
-}
-.no-scrollbar { 
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
-}
+/* --- THEME UTILITIES --- */
+.cde-text-navy { color: var(--cde-navy); }
+.cde-bg-navy { background-color: var(--cde-navy); }
+.cde-border-navy { border-color: var(--cde-navy); }
 
-/* CDE Brand Border for selected items (Red #E31837) */
+.cde-text-red { color: var(--cde-red); }
+.cde-bg-red { background-color: var(--cde-red); }
+.cde-border-red { border-color: var(--cde-red); }
+
+/* Hover States */
+.hover-text-red:hover { color: var(--cde-red); }
+.hover-bg-navy:hover { background-color: #001f40; } /* Slightly darker navy */
+.hover-border-navy:hover { border-color: var(--cde-navy); }
+
+/* Focus Rings */
+.focus-ring-red:focus { 
+    --tw-ring-color: var(--cde-red); 
+    --tw-ring-opacity: 1;
+    --tw-ring-offset-width: 0px;
+}
+.focus-border-red:focus { border-color: var(--cde-red); }
+
+/* --- COMPONENT STYLES --- */
+
+/* Selected Card Styling */
 .card-selected { 
-    border: 2px solid #E31837; 
-    background-color: #fff1f2; 
+    border: 2px solid var(--cde-red); 
+    background-color: var(--cde-red-light); 
 }
 
-/* Mobile Order Inputs Animation */
+/* Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Animations */
 #orderInputs { 
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; 
     overflow: hidden; 
 }
 
-/* Cart Drawer Animation */
 #cartDrawer {
     transform: translateY(100%);
     transition: transform 0.3s ease-in-out;
@@ -35,7 +60,6 @@ body {
     transform: translateY(0);
 }
 
-/* Help Modal Animation */
 #helpModal.hidden {
     opacity: 0;
     pointer-events: none;
@@ -46,7 +70,10 @@ body {
     transition: opacity 0.3s ease;
 }
 
-/* Prevent body scroll when drawer/modal is open */
 body.drawer-open {
     overflow: hidden; 
+}
+
+.safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
 }
