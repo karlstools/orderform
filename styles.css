@@ -1,0 +1,52 @@
+/* styles.css */
+
+body { 
+    font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+    -webkit-tap-highlight-color: transparent; 
+}
+
+/* Hide Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar { 
+    display: none; 
+}
+.no-scrollbar { 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+/* CDE Brand Border for selected items (Red #E31837) */
+.card-selected { 
+    border: 2px solid #E31837; 
+    background-color: #fff1f2; 
+}
+
+/* Mobile Order Inputs Animation */
+#orderInputs { 
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; 
+    overflow: hidden; 
+}
+
+/* Cart Drawer Animation */
+#cartDrawer {
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+}
+#cartDrawer.open {
+    transform: translateY(0);
+}
+
+/* Help Modal Animation */
+#helpModal.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+#helpModal {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Prevent body scroll when drawer/modal is open */
+body.drawer-open {
+    overflow: hidden; 
+}
