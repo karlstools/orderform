@@ -17,5 +17,16 @@
       ["50' FIBER JUMPER", 4],
       ["75' FIBER JUMPER", 4]
     ]
+  },
+  {
+    "name": "The Works",
+    "description": "Includes 10 Tii Plates, 1 Bag of Cut-in Brackets, 1 Bag of Inserts/Keystones, Bag of RJ45s"
+    "items": [ 
+      ["TII BOXES-WHITE", 10],
+      ["RJ45", 1],
+      ["DRYWALL BRACKET", 1],
+      ["CAT5e KEYSTONE, WHITE", 4]
+      
+    ]
   }
 ]
