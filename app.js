@@ -148,12 +148,12 @@ function renderCart() {
             itemDiv.innerHTML = `
                 <div class="flex flex-col flex-grow min-w-0 mr-4">
                     <span class="text-xs font-mono bg-white text-gray-500 px-1.5 py-0.5 rounded self-start border border-gray-200">${item.id}</span>
-                    <h4 class="font-semibold text-sm text-[#002855] truncate">${item.name}</h4>
+                    <h4 class="font-semibold text-sm cde-text-navy truncate">${item.name}</h4>
                 </div>
                 <div class="flex items-center flex-shrink-0">
                     <button onclick="updateQty(${uid}, -1)" class="w-7 h-7 flex items-center justify-center rounded bg-white shadow-sm text-gray-600 active:bg-gray-200 font-bold text-base touch-manipulation border border-gray-200">-</button>
                     <span class="w-8 text-center font-bold text-gray-800 text-base mx-1">${qty}</span>
-                    <button onclick="updateQty(${uid}, 1)" class="w-7 h-7 flex items-center justify-center rounded bg-[#E31837] shadow-sm text-white active:bg-red-800 font-bold text-base touch-manipulation">+</button>
+                    <button onclick="updateQty(${uid}, 1)" class="w-7 h-7 flex items-center justify-center rounded cde-bg-red shadow-sm text-white active:bg-red-800 font-bold text-base touch-manipulation">+</button>
                 </div>
             `;
             cartList.appendChild(itemDiv);
@@ -180,24 +180,24 @@ function renderGrid() {
     if (currentFilter === 'Bundles') {
         bundleConfig.forEach((bundle, index) => {
             const card = document.createElement('div');
-            card.className = "bg-slate-50 p-4 rounded-xl shadow-md border-2 border-slate-200 hover:border-[#002855] transition cursor-pointer group";
+            card.className = "bg-slate-50 p-4 rounded-xl shadow-md border-2 border-slate-200 hover-border-navy transition cursor-pointer group";
             card.onclick = () => applyBundle(index);
             
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-black text-[#002855] text-base">${bundle.name}</h3>
-                    <span class="text-xs bg-[#002855] text-white px-2 py-1 rounded-full font-bold whitespace-nowrap">📦 Add Kit</span>
+                    <h3 class="font-black cde-text-navy text-base">${bundle.name}</h3>
+                    <span class="text-xs cde-bg-navy text-white px-2 py-1 rounded-full font-bold whitespace-nowrap">📦 Add Kit</span>
                 </div>
                 <p class="text-xs text-gray-500 mb-3 line-clamp-2">${bundle.description}</p>
                 <div class="space-y-1">
                     ${bundle.items.map(([item, qty]) => 
                         `<div class="text-[10px] text-gray-600 flex justify-between border-b border-gray-200 pb-1">
                             <span>${item}</span>
-                            <span class="font-mono font-bold text-sm text-[#E31837]">x${qty}</span>
+                            <span class="font-mono font-bold text-sm cde-text-red">x${qty}</span>
                         </div>`
                     ).join('')}
                 </div>
-                <div class="mt-4 text-center text-xs font-bold text-[#E31837] group-hover:text-red-700 transition">
+                <div class="mt-4 text-center text-xs font-bold cde-text-red group-hover:text-red-700 transition">
                     Tap to add to cart
                 </div>
             `;
@@ -228,13 +228,13 @@ function renderGrid() {
             </div>
             <div class="flex items-center gap-2 mb-2 h-10">
                 ${icon}
-                <h3 class="font-semibold text-[#002855] text-xs leading-tight line-clamp-2">${item.name}</h3>
+                <h3 class="font-semibold cde-text-navy text-xs leading-tight line-clamp-2">${item.name}</h3>
             </div>
             
             <div class="flex items-center justify-between mt-auto bg-gray-50 rounded-lg p-1 border border-gray-100">
                 <button onclick="updateQty(${item.uid}, -1)" class="w-8 h-8 flex items-center justify-center rounded bg-white shadow-sm text-gray-600 active:bg-gray-200 font-bold text-lg touch-manipulation border border-gray-100">-</button>
-                <input type="number" value="${qty}" class="w-10 text-center bg-transparent font-bold text-[#002855] focus:outline-none text-lg" readonly>
-                <button onclick="updateQty(${item.uid}, 1)" class="w-8 h-8 flex items-center justify-center rounded bg-[#E31837] shadow-sm text-white active:bg-red-800 font-bold text-lg touch-manipulation">+</button>
+                <input type="number" value="${qty}" class="w-10 text-center bg-transparent font-bold cde-text-navy focus:outline-none text-lg" readonly>
+                <button onclick="updateQty(${item.uid}, 1)" class="w-8 h-8 flex items-center justify-center rounded cde-bg-red shadow-sm text-white active:bg-red-800 font-bold text-lg touch-manipulation">+</button>
             </div>
         `;
         container.appendChild(card);
@@ -259,8 +259,8 @@ function updateQty(uid, change) {
 }
 
 function getIconForCategory(cat) {
-    if (cat === 'Equipment') return '<div class="w-5 h-5 text-[#002855] flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></div>';
-    if (cat === 'Fiber/Copper') return '<div class="w-5 h-5 text-[#E31837] flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>';
+    if (cat === 'Equipment') return '<div class="w-5 h-5 cde-text-navy flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></div>';
+    if (cat === 'Fiber/Copper') return '<div class="w-5 h-5 cde-text-red flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>';
     if (cat === 'Plates/Jacks') return '<div class="w-5 h-5 text-gray-500 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg></div>';
     return '<div class="w-5 h-5 text-gray-400 flex-shrink-0"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg></div>';
 }
@@ -277,10 +277,10 @@ function filterCategory(cat) {
         if(cat === 'Bundles' && btnText.includes('Bundles')) isActive = true;
 
         if(isActive) {
-            btn.classList.add('bg-[#E31837]', 'text-white', 'shadow-md');
+            btn.classList.add('cde-bg-red', 'text-white', 'shadow-md');
             btn.classList.remove('bg-white', 'border-gray-200', 'text-gray-600', 'hover:bg-gray-50', 'bg-slate-100', 'text-slate-600');
         } else {
-            btn.classList.remove('bg-[#E31837]', 'text-white', 'shadow-md');
+            btn.classList.remove('cde-bg-red', 'text-white', 'shadow-md');
             if (btnText.includes('Bundles')) {
                 btn.classList.add('bg-slate-100', 'border-slate-200', 'text-slate-600');
             } else {
