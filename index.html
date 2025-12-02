@@ -115,14 +115,17 @@
                 <button onclick="filterCategory('Fiber/Copper')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Fiber/Copper</button>
                 <button onclick="filterCategory('Plates/Jacks')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Wall Plates</button>
                 <button onclick="filterCategory('Hardware')" class="px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 cat-btn whitespace-nowrap flex-shrink-0">Hardware</button>
-               
+                
             </div>
         </div>
     </div>
 
     <div class="max-w-7xl mx-auto px-3 py-4">
         <div id="gridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            <div class="col-span-full text-center text-gray-500 py-10">
+                <p>Loading catalog...</p>
             </div>
+        </div>
     </div>
 
     <div id="helpModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
@@ -208,111 +211,46 @@
     </div>
 
     <script>
-        // --- DATA ---
-        const catalog = [
-            { id: "80610", name: "4 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "80612", name: "2 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "80614", name: "1 PORT WALL PLATE, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "80616", name: "CAT5e KEYSTONE, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "80618", name: "F CONNECTOR, FOR COAX WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "80620", name: "4 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "80622", name: "2 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "80624", name: "1 PORT WALL PLATE, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "80628", name: "F CONNECTOR, FOR COAX IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "80630", name: "8\" UV CABLE TIES (BAG)", category: "Hardware", isPopular: false },
-            { id: "80632", name: "7' CAT5e PATCH CABLE", category: "Fiber/Copper", isPopular: false },
-            { id: "80636", name: "DRYWALL BRACKET", category: "Hardware", isPopular: false },
-            { id: "80640", name: "SURFACE MOUNT 1 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "80642", name: "SURFACE MOUNT 2 PORT, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "80644", name: "SURFACE MOUNT 1 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "80646", name: "SURFACE MOUNT 2 PORT, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "NA", name: "7' CONVERSION CABLE - BLUE-GREEN", category: "Fiber/Copper", isPopular: true },
-            { id: "NA", name: "7' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
-            { id: "NA", name: "25' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
-            { id: "NA", name: "50' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
-            { id: "NA", name: "75' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
-            { id: "NA", name: "100' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
-            { id: "NA", name: "125' FIBER JUMPER", category: "Fiber/Copper", isPopular: true },
-            { id: "NA", name: "150' FIBER JUMPER", category: "Fiber/Copper", isPopular: false },
-            { id: "80634", name: "SILICONE", category: "Hardware", isPopular: false },
-            { id: "80654", name: "SCOTCH LOCKS", category: "Hardware", isPopular: false },
-            { id: "NA", name: "TII BOXES-WHITE", category: "Plates/Jacks", isPopular: true },
-            { id: "NA", name: "TII BOXES-GRAY", category: "Hardware", isPopular: false },
-            { id: "NA", name: "BOX OF CAT 6", category: "Fiber/Copper", isPopular: false },
-            { id: "NA", name: "RJ11", category: "Hardware", isPopular: false },
-            { id: "NA", name: "CAT5 CLIPS", category: "Hardware", isPopular: false },
-            { id: "NA", name: "ELECTRICAL TAPE", category: "Hardware", isPopular: false },
-            { id: "NA", name: "CABLE CLIP SCREWS", category: "Hardware", isPopular: false },
-            { id: "NA", name: "PHONE INSERT, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "NA", name: "PHONE INSERT, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "NA", name: "BLANK INSERT, WHITE", category: "Plates/Jacks", isPopular: false },
-            { id: "NA", name: "BLANK INSERT, IVORY", category: "Plates/Jacks", isPopular: false },
-            { id: "NA", name: "HDMI CORDS", category: "Hardware", isPopular: false },
-            { id: "NA", name: "AMINO REMOTES", category: "Equipment", isPopular: false },
-            { id: "NA", name: "AA BATTERIES", category: "Hardware", isPopular: false },
-            { id: "NA", name: "AAA BATTERIES", category: "Hardware", isPopular: false },
-            { id: "NA", name: "9V BATTERIES", category: "Hardware", isPopular: false },
-            { id: "NA", name: "RJ45", category: "Hardware", isPopular: false },
-            { id: "80030", name: "PLUME POD", category: "Equipment", isPopular: false },
-            { id: "80603", name: "GP1100X", category: "Equipment", isPopular: true },
-            { id: "80005", name: "HD SET TOP 651", category: "Equipment", isPopular: false },
-            { id: "80005", name: "WIRELESS 7B 5C", category: "Equipment", isPopular: true },
-            { id: "80005", name: "HD SET TOP 7X", category: "Equipment", isPopular: false },
-            { id: "80006", name: "SET BACK BOX", category: "Equipment", isPopular: false },
-            { id: "80015", name: "AMINO AMULET DVR", category: "Equipment", isPopular: false },
-            { id: "80604", name: "U4/GS2028E", category: "Equipment", isPopular: false },
-            { id: "80605", name: "U6/GS4227W", category: "Equipment", isPopular: false },
-            { id: "80606", name: "U4M/GM1028", category: "Equipment", isPopular: false },
-            { id: "80607", name: "10G OPTI", category: "Equipment", isPopular: false },
-            { id: "80608", name: "1G OPTI", category: "Equipment", isPopular: false },
-            { id: "80910", name: "U10X", category: "Equipment", isPopular: false },
-            { id: "80609", name: "4200 OUTDOOR ONT", category: "Equipment", isPopular: false },
-            { id: "NA", name: "XGSPON Calix SFP+", category: "Hardware", isPopular: false },
-            { id: "80906", name: "U6TXG", category: "Equipment", isPopular: true },
-            { id: "NA", name: "GP1101", category: "Equipment", isPopular: true },
-            { id: "80907", name: "U6T", category: "Equipment", isPopular: true }
-        ];
-
-        catalog.forEach((item, index) => { item.uid = index; });
-
-        // --- BUNDLE CONFIGURATION ---
-        const bundleConfig = [
-            {
-                name: "Migration Bundle",
-                description: "Includes 5x U6XTG, 5x U6T, 10x GP1101",
-                items: [
-                    ["U6TXG", 5],
-                    ["U6T", 5],
-                    ["GP1101", 10]
-                ]
-            }, // <--- IMPORTANT: Don't forget this comma!
-    
-    // START OF NEW BUNDLE
-         {
-                name: "Fiber Restock",
-                description: "Includes 4 of each: 7ft, 25ft, 50ft, 75ft",
-                items: [
-                    ["7' FIBER JUMPER", 4],       // You can use the specific Item Name...
-                    ["25' FIBER JUMPER", 4],
-                    ["50' FIBER JUMPER", 4],
-                    ["75' FIBER JUMPER", 4]
-                    // ...OR you can use the Item ID (safer)
-        ]
-    }
-        ];
-
-        // --- STATE ---
+        // --- DATA STATE ---
+        let catalog = [];
+        let bundleConfig = [];
         let cart = {};  
         let currentFilter = 'All';
         let isDetailsOpen = false;
 
-        // Initialize Dates
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('orderDate').value = today;
-        document.getElementById('orderDateMobile').value = today;
+        // --- INIT ---
+        async function initApp() {
+            // Set Dates
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('orderDate').value = today;
+            document.getElementById('orderDateMobile').value = today;
 
-        renderGrid();
-        renderCart(); // Initial render
+            // Load Data
+            try {
+                const [invRes, bunRes] = await Promise.all([
+                    fetch('inventory.json'),
+                    fetch('bundles.json')
+                ]);
+                
+                if (!invRes.ok || !bunRes.ok) throw new Error("Failed to load data files");
+
+                catalog = await invRes.json();
+                bundleConfig = await bunRes.json();
+
+                // Add UID mapping required for the app logic
+                catalog.forEach((item, index) => { item.uid = index; });
+
+                renderGrid();
+                renderCart();
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('gridContainer').innerHTML = 
+                    `<div class="col-span-full text-center text-red-500 font-bold p-10">
+                        Error loading data. Please ensure inventory.json and bundles.json exist.
+                    </div>`;
+            }
+        }
 
         function syncDates(val) {
             document.getElementById('orderDate').value = val;
@@ -350,12 +288,13 @@
             }
         }
 
-        // --- BUNDLE LOGIC (NEW) ---
+        // --- BUNDLE LOGIC ---
         function applyBundle(index) {
             const bundle = bundleConfig[index];
             let addedCount = 0;
 
             bundle.items.forEach(([key, qty]) => {
+                // Try finding by ID first, then Name
                 const item = catalog.find(i => i.id === key || i.name === key);
                 if (item) {
                     if (!cart[item.name]) cart[item.name] = 0;
@@ -660,6 +599,9 @@
                 e.returnValue = ''; 
             }
         });
+
+        // Start App
+        initApp();
     </script>
 </body>
 </html>
