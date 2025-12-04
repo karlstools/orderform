@@ -4,8 +4,7 @@
     /* --- CDE LIGHTBAND THEME VARIABLES --- */
     --cde-navy: #002855;
     --cde-red: #8AC926;
-    --cde-red-light: #fff1f2;
-    /* Light pink for backgrounds */
+    --cde-red-light: #fff1f2; /* Light pink for backgrounds */
 }
 
 body {
@@ -116,28 +115,27 @@ body.drawer-open {
 }
 
 /* --- HIGHLIGHT ANIMATION --- */
+
 @keyframes pulse-navy {
     0% {
         box-shadow: 0 0 0 0 rgba(0, 40, 85, 0.4);
     }
-
     70% {
         box-shadow: 0 0 0 6px rgba(0, 40, 85, 0);
     }
-
     100% {
         box-shadow: 0 0 0 0 rgba(0, 40, 85, 0);
     }
 }
 
+/* FIXED: Removed forced border/background so it doesn't look "selected" by default */
 .btn-highlight {
-    border: 2px solid var(--cde-navy) !important;
-    color: var(--cde-navy) !important;
-    background-color: white !important;
-    /* Light navy tint */
+    color: var(--cde-navy);
+    font-weight: 600; /* Makes it stand out without a border */
     animation: pulse-navy 2s infinite;
 }
 
+/* This class now handles the "Selected" look exclusively */
 .btn-highlight.active-cat {
     animation: none;
     background-color: var(--cde-navy) !important;
